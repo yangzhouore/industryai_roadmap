@@ -21,13 +21,20 @@ def evidence_text(article):
     return article["title"].strip() + "\n" + article["excerpt"].strip()
 
 
-def _seal_review(issue, evidence, claims, classifications, fact_check, requests, *, strict_day=False):
+def _seal_review(issue, evidence, claims, classifications, fact_check, requests, *, strict_day=False,
+                 daily_window=False, excluded_event_keys=(), classification_batches=None):
     """Called only after independent provider output and deterministic checks pass."""
     review = {"version": "industrial-review-v2", "issueHash": issue_digest(issue),
               "evidenceHash": sha256(canonical(evidence)).hexdigest(), "evidence": evidence,
               "claims": claims, "classifications": classifications, "factCheck": fact_check,
               "requests": requests, "historicalDay": bool(strict_day), "editorialTimezone": "Europe/Berlin",
               "reviewedAt": datetime.now(timezone.utc).isoformat()}
+    if daily_window:
+        from .temporal import daily_source_window
+        from ..scoring.events import normalize_event_key
+        review["dailySourceWindow"] = daily_source_window(issue["date"])
+        review["excludedEventKeys"] = sorted({normalize_event_key(key) for key in excluded_event_keys})
+        review["classificationBatches"] = classification_batches or []
     errors = _content_errors(issue, review)
     if errors:
         raise ValueError("Review rejected: " + "; ".join(errors))
@@ -71,12 +78,39 @@ def _content_errors(issue, review):
         from .temporal import publication_day
         if any(publication_day(article["publishedAt"]) != issue["date"] for article in review["evidence"]):
             errors.append("review: historical evidence crossed the exact Europe/Berlin edition day")
+    if review.get("dailySourceWindow") is not None:
+        from .temporal import daily_source_window, in_daily_source_window
+        from ..scoring.events import normalize_event_key
+        if review.get("historicalDay") or review["dailySourceWindow"] != daily_source_window(issue["date"]):
+            errors.append("review: daily source window does not match the publication edition day")
+        for article in review["evidence"]:
+            if not in_daily_source_window(article["publishedAt"], issue["date"]):
+                errors.append("review: daily evidence crossed the previous complete Europe/Berlin day")
+            if article.get("eventAt") is not None and not in_daily_source_window(article["eventAt"], issue["date"]):
+                errors.append("review: known event time lies outside the daily source window")
+        excluded = {normalize_event_key(key) for key in review.get("excludedEventKeys", [])}
+        if any(normalize_event_key(item["eventKey"]) in excluded for item in review["classifications"]):
+            errors.append("review: a previously published event was selected again")
     requests = _unique_index(review["requests"], "stage")
     if set(requests) != {"classify", "generate", "verify"} or len({r["responseId"] for r in requests.values()}) != 3:
         errors.append("review: three separate classification/generation/verification responses required")
     for request in requests.values():
         if not request.get("model") or not str(request.get("responseId", "")).startswith("resp_"):
             errors.append("review: missing provider audit metadata")
+    if review.get("dailySourceWindow") is not None:
+        batches = review.get("classificationBatches", [])
+        batch_ids = [batch["responseId"] for batch in batches]
+        article_ids = [article_id for batch in batches for article_id in batch["articleIds"]]
+        if (not 1 <= len(batches) <= 10 or [b["batchIndex"] for b in batches] != list(range(len(batches)))
+                or len(batch_ids) != len(set(batch_ids))
+                or len(article_ids) != len(set(article_ids))
+                or any(not 1 <= len(b["articleIds"]) <= 30 for b in batches)
+                or any(not b.get("model") or not str(b["responseId"]).startswith("resp_") for b in batches)
+                or not {c["articleId"] for c in review["classifications"]}.issubset(article_ids)
+                or (batches and (batches[0]["responseId"] != requests["classify"]["responseId"]
+                                 or batches[0]["model"] != requests["classify"]["model"]))
+                or set(batch_ids) & {requests[stage]["responseId"] for stage in ("generate", "verify")}):
+            errors.append("review: incomplete or duplicated daily classification batch audit")
     try:
         FactCheck.model_validate(review["factCheck"])
     except ValidationError:

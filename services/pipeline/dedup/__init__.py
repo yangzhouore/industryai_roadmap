@@ -48,3 +48,24 @@ def cluster_events(articles):
         key = match or day + ":" + article["evidenceGroup"]
         groups.setdefault(key, []).append(article)
     return groups
+
+
+def suppress_previously_published(articles, published_urls=(), published_event_keys=()):
+    """Exclude repeat evidence or explicitly assigned events, without inferring news.
+
+    Event keys must come from reviewed classifications supplied by the caller.
+    Title similarity alone never proves that two historical events are identical.
+    """
+    from services.pipeline.collectors import canonicalize_url
+    urls = {canonicalize_url(url) for url in published_urls}
+    event_keys = {key.strip().casefold() for key in published_event_keys if isinstance(key, str) and key.strip()}
+    kept, rejected = [], []
+    for article in articles:
+        url = canonicalize_url(article['url'])
+        event_key = article.get('reviewedEventKey') or article.get('eventKey')
+        repeated_event = isinstance(event_key, str) and event_key.strip().casefold() in event_keys
+        if url in urls or repeated_event:
+            rejected.append({'url': url, 'reason': 'previously_published_url' if url in urls else 'previously_published_event'})
+        else:
+            kept.append(article)
+    return kept, rejected

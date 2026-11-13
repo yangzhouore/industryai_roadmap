@@ -66,16 +66,8 @@ Only the lead agent changes status. `[ ]` pending; `[x]` verified. Never mark do
 After M0 shared contracts freeze, spawn frontend, pipeline and editorial simultaneously. QA may begin fixture and contract tests in parallel. Lead integrates only after agents report completion and touched files.
 
 ## Foundation acceptance (historical, before MVP-2/MVP-3)
-- All local M0-M5 implementation and verification tasks completed.
-- 50 Python tests passed with PostgreSQL enabled; 7 frontend reader tests passed.
-- Real PostgreSQL migration, seed replay, constraints, evidence writes and rollback passed.
-- Database-backed web: 24 HTTP checks passed; browser report and screenshots under artifacts/browser.
-- Browser checks cover desktop/mobile, contrast, accessibility tree, keyboard and locale navigation.
-- Build, typecheck and lint passed; scheduled success/failure monitoring verified.
-- Feed fixture replay inserts zero duplicates; candidates and audit records persisted.
-- Portable PostgreSQL and local preview supplied; only explicit fixture mode now serves synthetic content.
-- GitHub Actions workflows are ready but remote execution has not been triggered.
-- MVP-2 supersedes demo-only operation: real feeds and manual AI publication now verified; email/public hosting inactive.
+- M0-M5 local gates passed; historical 50 backend/seven frontend tests and 24 HTTP checks.
+- MVP-2/MVP-3 supersede demo-only acceptance; see docs/ACCEPTANCE.md and MVP3_BACKFILL_REPORT.md.
 
 ## MVP-3 stabilization - 2026-11-13
 - [x] Verified existing unborn Git repository and identity; prepared initial source checkpoint.
@@ -86,4 +78,17 @@ After M0 shared contracts freeze, spawn frontend, pipeline and editorial simulta
 - [x] Reran tests: 93 backend passed, 12 DB-writing tests skipped; 9 frontend passed; lint/typecheck passed.
 - [x] All 15 PostgreSQL table fingerprints unchanged; 140 real articles, three bilingual editions, one revision retained.
 - [x] Ten local real-publication route checks passed. No paid calls, backfill, push or deployment.
-- Stop after the initial checkpoint. MVP-4 has not started; Git does not back up ignored database/runtime data.
+- Initial checkpoint fdcd708 retained; Git does not back up ignored database/runtime data.
+
+## MVP-4 - Automated daily publishing (local implementation)
+- [x] Berlin 07:00 slots/DST, overlap locks, missed-run status and manual/dry-run/resume CLI.
+- [x] Disabled GitHub schedule plus Windows task export; no task registered or paid execution activated.
+- [x] Incremental real-source collection, explicit source inventory and canonical/reviewed-event deduplication.
+- [x] Read-only probe: all 14 permitted endpoints; same 55 historical candidates, November 1 still unresolved.
+- [x] Daily Luna classification batches, Terra generation/review/translation, low reasoning and sealed temporal gates.
+- [x] Concurrent USD 2 monthly ledger, pre-request reservations, retries, failed calls and legacy carryover.
+- [x] Durable stage resume, atomic bilingual publication/event claims and append-only edition/review snapshots.
+- [x] Additive local schema applied; existing 15-table fingerprints preserved with 140 articles/three editions/one revision.
+- [x] Regression checks and secret scan recorded in docs/MVP4_ACCEPTANCE.md.
+- [ ] Explicit authorization to activate unattended paid calls, register an enabled task or push/deploy.
+- Next: review operational setup/activation separately. Existing coverage gaps remain honest omissions.

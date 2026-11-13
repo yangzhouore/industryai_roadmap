@@ -8,6 +8,13 @@ def _words(value):
     return " ".join(re.sub(r"[^\w\s]", " ", unicodedata.normalize("NFKC", value).casefold()).split())
 
 
+def normalize_event_key(value):
+    """Stable identity used by daily publication and cross-edition deduplication."""
+    if not isinstance(value, str):
+        raise ValueError("Event identity must be text")
+    return _words(value)
+
+
 def group_events(classifications, articles):
     """Return a stable group label per article using model and original-source signals.
 

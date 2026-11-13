@@ -39,6 +39,11 @@ class IngestTests(unittest.TestCase):
         result = ingest(path,self.db)
         self.assertEqual((result['sourcesSucceeded'],result['sourcesFailed']),(1,1))
         self.assertEqual(self.query('SELECT status FROM pipeline_runs')[0][0],'partial')
+
+    def test_publication_day_is_not_inferred_as_candidate_event_day(self):
+        ingest(database=self.db)
+        self.assertTrue(all(row[0] is None for row in self.query('SELECT event_date FROM story_clusters')))
+        self.assertTrue(all(row[0] for row in self.query('SELECT published_at FROM raw_articles')))
     def test_registry_failure_audit(self):
         path,data = self.registry()
         data['sources'].append(data['sources'][0])

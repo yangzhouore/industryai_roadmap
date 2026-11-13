@@ -5,6 +5,8 @@ You are the lead orchestrating agent. Follow the current user request; do not st
 MVP-3 is implemented locally: 140 real articles, three published bilingual editions
 (November 6, 9 and 13, 2026), and one archived November 13 revision.
 Read `docs/MVP3_BACKFILL_REPORT.md` before resuming. Preserve existing PostgreSQL data.
+MVP-4 automation code is implemented; paid unattended execution remains disabled.
+Read `docs/MVP4_OPERATIONS.md` for scheduling, status, monthly budget and activation requirements.
 
 1. Read `AGENTS.md`, `TASKS.md`, and `docs/PRD.md`, `docs/ARCHITECTURE.md`, `docs/DESIGN.md`, `docs/PIPELINE.md`.
 2. Check repository state, tooling, dependencies, and available native Codex subagents.

@@ -2,11 +2,11 @@
 
 `from services.pipeline.editorial.live import generate_real_issue`
 
-`draft, review = generate_real_issue(articles, issue_date, provider=None, draft_sink=None, strict_day=False)`
+`draft, review = generate_real_issue(articles, issue_date, provider=None, draft_sink=None, *, strict_day=False, daily_window=False, excluded_event_keys=())`
 
 ## Input and credentials
 
-- Input is 1–30 real collected article dictionaries, never fixture substitutes.
+- Input is 1–30 real collected article dictionaries; daily mode permits up to 300 in classification batches of 30.
 - Required fields: sourceId, name, url, title, excerpt (string), publishedAt,
   timezone, synthetic=false. Optional: eventAt, language (`en` default or `zh`).
 - URLs must be canonical public HTTPS destinations; excerpts max 3400 characters.
@@ -36,6 +36,15 @@ Outputs use the existing public Issue schema, state=draft and validated=false.
 review, allowing failed/unverified editions to remain private drafts.
 With `strict_day=True`, all sources must fall on the exact Europe/Berlin calendar
 day (including DST); issue ID is `issue-<date>-historical`. Review binds this policy.
+
+With `daily_window=True`, issue date is the publication date and source evidence
+must be from the previous complete Berlin day, including 23/25-hour DST days.
+Known event times outside that window are excluded; missing event time stays unknown.
+The source window is bound to review. These policies cannot be combined.
+Daily classification covers every candidate in batches, globally selects stories,
+then generates/reviews once; batch response IDs and membership are sealed in review.
+`excluded_event_keys` prevents previously published normalized event identities.
+Trace includes selected candidates and classifier, event, story-limit or budget rejections.
 
 ## Review and publication
 

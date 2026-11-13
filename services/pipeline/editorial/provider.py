@@ -33,7 +33,7 @@ class _NoRedirect(HTTPRedirectHandler):
 
 
 class OpenAIProvider:
-    """Three bounded requests per edition; injected transport is only for adapter tests."""
+    """Bounded three-stage requests; daily classification can use multiple batches."""
     def __init__(self, api_key=None, model=None, verification_model=None, *, classification_model=None,
                  reasoning_effort=None, timeout=45, retries=1, max_output_tokens=12000,
                  transport=None, sleep=time.sleep, before_request=None, after_response=None):

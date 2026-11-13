@@ -120,9 +120,10 @@ CREATE TABLE IF NOT EXISTS pipeline_runs(id TEXT PRIMARY KEY,started_at TEXT NOT
                 added += cursor.rowcount
             for group in cluster_events(articles).values():
                 first = group[0]
-                date = (first.get('eventAt') or first['publishedAt'])[:10]
-                cluster_id = sha256((date+':'+normalize_title(first['title'])).encode()).hexdigest()
-                self.execute('''INSERT INTO story_clusters(id,label,event_date,category,maturity,status) VALUES(?,?,?,?,?,?) ON CONFLICT(id) DO NOTHING''',(cluster_id,first['title'],date,'unclassified','unknown','candidate'))
+                grouping_day = (first.get('eventAt') or first['publishedAt'])[:10]
+                event_date = first['eventAt'][:10] if first.get('eventAt') else None
+                cluster_id = sha256((grouping_day+':'+normalize_title(first['title'])).encode()).hexdigest()
+                self.execute('''INSERT INTO story_clusters(id,label,event_date,category,maturity,status) VALUES(?,?,?,?,?,?) ON CONFLICT(id) DO NOTHING''',(cluster_id,first['title'],event_date,'unclassified','unknown','candidate'))
                 for article in group:
                     article_id = self.execute('SELECT id FROM raw_articles WHERE canonical_url=?',(article['url'],)).fetchone()[0]
                     self.execute('INSERT INTO article_cluster_links(cluster_id,article_id) VALUES(?,?) ON CONFLICT DO NOTHING',(cluster_id,article_id))

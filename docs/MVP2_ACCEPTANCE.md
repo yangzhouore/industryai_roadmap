@@ -49,9 +49,9 @@ Unavailable/restricted sources and reasons are recorded in config/sources.yaml.
 - Live collection and replay executed against PostgreSQL, not mocked HTTP.
 - Live editorial, independent review, translation and real-content route acceptance passed.
 
-## Daily operation
-`python -m services.pipeline.live --dry-run` collects incrementally and writes audit records.
-It can invoke paid editorial calls when credentials exist; it suppresses publication, not API costs.
-Use offline fixtures for no-network/no-cost checks.
+## Daily operation (superseded by MVP-4)
+The old MVP-2 live dry-run collected and could incur editorial costs; that behavior has been replaced.
+`python -m services.pipeline.live --dry-run` now delegates to MVP-4 read-only planning with no network or paid calls.
+See [MVP-4 operations](MVP4_OPERATIONS.md) for daily scheduling, authorization, budget and resume.
 `.github/workflows/live.yml` is opt-in via LIVE_NEWS_ENABLED and uses secret environment values.
 No public deployment or scheduled paid service has been activated.

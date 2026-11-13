@@ -20,7 +20,10 @@
     "smoke:web": "python tests/smoke_web.py",
     "pipeline:scheduled": "python -m services.pipeline.scheduled",
     "pipeline:collect": "python -m services.pipeline.ingest",
-    "pipeline:live": "python -m services.pipeline.live"
+    "pipeline:live": "python -m services.pipeline.live",
+    "pipeline:daily": "python -m services.pipeline.daily",
+    "pipeline:status": "python -m services.pipeline.daily status",
+    "pipeline:sources": "python -m services.pipeline.collectors.discovery"
   },
   "overrides": {
     "postcss": "8.5.32",

@@ -14,5 +14,9 @@
 - `pipeline_runs`: id, started_at, ended_at, mode, status, stage, stats, error.
 - `delivery_logs`: id, issue_id, channel, status, delivered_at, error.
 - `edition_revisions`: id, issue_id, revision UNIQUE per issue, content, review, archived_at; append-only SQL trigger.
+- `automation_runs`: dated execution attempts, stage/status, start/end, JSON observations and errors.
+- `api_requests`: per-attempt monthly reservations, model, tokens, retry index, estimated USD and response ID.
+- `automation_events`: unique normalized reviewed event key and published issue ID, committed with publication.
+- `automation_cache`: hashed stage/candidate keys and private JSON for durable resume; no API keys or HTTP headers.
 
 Add foreign keys, unique constraints, useful indexes and PostgreSQL full-text search + pg_trgm. The lead freezes the contract before parallel development. Use seed fixtures with realistic but clearly synthetic stories and no false source URLs.

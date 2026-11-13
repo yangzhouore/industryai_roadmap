@@ -1,12 +1,21 @@
-name: Real industrial news
+name: Industrial AI daily publication
 on:
   workflow_dispatch:
     inputs:
       publish:
+        description: Explicit permission for this manual paid run
         type: boolean
         default: false
+      date:
+        description: Optional edition date (YYYY-MM-DD); never inferred as an event date
+        type: string
+        required: false
   schedule:
-    - cron: '30 7 * * *'
+    - cron: '0 7 * * *'
+      timezone: Europe/Berlin
+    # Recheck the same daily slot if GitHub delayed or dropped the first trigger.
+    - cron: '15 9 * * *'
+      timezone: Europe/Berlin
 permissions:
   contents: read
 concurrency:
@@ -14,32 +23,40 @@ concurrency:
   cancel-in-progress: false
 jobs:
   pipeline:
-    if: vars.LIVE_NEWS_ENABLED == 'true' && (github.event_name != 'schedule' || vars.UNATTENDED_PAID_APPROVED == 'true')
+    if: (github.event_name == 'workflow_dispatch' && (!inputs.publish || vars.LIVE_NEWS_ENABLED == 'true')) || (github.event_name == 'schedule' && vars.LIVE_NEWS_ENABLED == 'true' && vars.UNATTENDED_PAID_APPROVED == 'true')
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-      OPENAI_MODEL: ${{ vars.OPENAI_MODEL }}
+      UNATTENDED_PAID_APPROVED: ${{ vars.UNATTENDED_PAID_APPROVED }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
       - run: pip install -r services/pipeline/requirements.txt
-      - name: Collect and prepare
+      - name: Inspect daily plan without paid access
+        if: github.event_name == 'workflow_dispatch' && !inputs.publish
         env:
-          PUBLISH: ${{ github.event_name == 'schedule' || inputs.publish }}
+          EDITION_DATE: ${{ inputs.date }}
         run: |
-          if [ "$PUBLISH" = "true" ]; then
-            python -m services.pipeline.live
-          else
-            python -m services.pipeline.live --dry-run
-          fi
+          args=(run --dry-run --resume)
+          if [ -n "$EDITION_DATE" ]; then args+=(--date "$EDITION_DATE"); fi
+          python -m services.pipeline.daily "${args[@]}"
+      - name: Execute explicitly approved daily run
+        if: github.event_name == 'schedule' || inputs.publish
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          EDITION_DATE: ${{ inputs.date }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          args=(run --allow-paid --resume)
+          if [ "$EVENT_NAME" = "schedule" ]; then args=(tick --allow-paid --resume); fi
+          if [ -n "$EDITION_DATE" ]; then args+=(--date "$EDITION_DATE"); fi
+          python -m services.pipeline.daily "${args[@]}"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: live-news-status
-          path: |
-            artifacts/live-status.json
-            artifacts/live-draft.json
+          name: daily-news-status
+          path: artifacts/daily-status.json
+          if-no-files-found: warn

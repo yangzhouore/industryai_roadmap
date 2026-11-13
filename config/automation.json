@@ -1,0 +1,11 @@
+{
+  "timezone": "Europe/Berlin",
+  "publicationTime": "07:00",
+  "startDate": "2026-11-14",
+  "monthlyBudgetUSD": 2,
+  "unattendedPaidApproved": false,
+  "sourceWindow": "previous_complete_berlin_day",
+  "registry": "config/sources.yaml",
+  "legacyBudgetPath": "artifacts/mvp3/budget.json",
+  "legacyBudgetMonth": "2026-11"
+}

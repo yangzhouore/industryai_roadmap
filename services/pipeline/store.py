@@ -123,9 +123,13 @@ class Store:
                  sha256(json.dumps(source['excerpt'],sort_keys=True).encode()).hexdigest(),Jsonb(source)))
         for position, story in enumerate(issue['stories']):
             story_id = issue['id'] + ':' + story['id']
+            # Publication day is not an event date. Unknown event times remain unknown.
+            event_times = [source['eventAt'] for source in issue['sources']
+                           if source['id'] in story['sourceIds'] and source.get('eventAt')]
+            event_date = min(event_times)[:10] if event_times else None
             self.execute('''INSERT INTO story_clusters(id,label,event_date,category,maturity,status)
                 VALUES(?,?,?,?,?,?) ON CONFLICT(id) DO NOTHING''',
-                (story_id,story['title']['en'],issue['date'],story['category'],story['maturity'],'published'))
+                (story_id,story['title']['en'],event_date,story['category'],story['maturity'],'published'))
             self.execute('''INSERT INTO digest_stories(id,issue_id,cluster_id,position,kind,structured_content,evidence_status)
                 VALUES(?,?,?,?,?,?,?) ON CONFLICT(id) DO NOTHING''',
                 (story_id,issue['id'],story_id,position,story['kind'],Jsonb(story),story['evidenceStatus']))

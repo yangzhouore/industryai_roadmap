@@ -196,3 +196,51 @@ model EditionRevision {
   @@index([issueId, archivedAt], map: "edition_revisions_issue_archive")
   @@map("edition_revisions")
 }
+
+model AutomationRun {
+  id        String    @id
+  issueDate String    @map("issue_date")
+  mode      String
+  status    String
+  stage     String
+  startedAt DateTime  @default(now()) @map("started_at") @db.Timestamptz(6)
+  endedAt   DateTime? @map("ended_at") @db.Timestamptz(6)
+  stats     Json      @default("{}")
+  error     String?
+
+  @@index([issueDate, startedAt], map: "automation_runs_date")
+  @@map("automation_runs")
+}
+
+model ApiRequest {
+  id           String   @id
+  month        String
+  runId        String?  @map("run_id")
+  stage        String
+  model        String
+  attempt      Int
+  status       String
+  reservedUsd  Decimal  @map("reserved_usd") @db.Decimal(24, 12)
+  estimatedUsd Decimal  @map("estimated_usd") @db.Decimal(24, 12)
+  usage        Json?
+  responseId   String?  @map("response_id")
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@index([month, createdAt], map: "api_requests_month")
+  @@map("api_requests")
+}
+
+model AutomationEvent {
+  eventKey String @id @map("event_key")
+  issueId  String @map("issue_id")
+
+  @@map("automation_events")
+}
+
+model AutomationCache {
+  cacheKey  String   @id @map("cache_key")
+  content   Json
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@map("automation_cache")
+}

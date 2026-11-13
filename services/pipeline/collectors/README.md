@@ -87,3 +87,11 @@ November8 was recovered; November1 remains a coverage gap, not proof of no news.
 See `historical_backfill_evidence.json` for verified endpoints, replay and daily counts.
 `archive_discovery_evidence.json` records unavailable endpoints and policy limits.
 Latest backfill checks:17 ingestion tests and14 collector tests passed (31 total).
+
+## Read-only discovery diagnostics
+`python -m services.pipeline.collectors.discovery` inventories all active/disabled
+sources and reports dated coverage/endpoint evidence without network or database access.
+Explicit `--fetch` probes configured permitted official feeds and archives only;
+it returns metadata without ingestion or publication. `--output` is confined to ignored
+`artifacts/`. Current availability is distinct from recorded November coverage.
+Offline tests: `python -m unittest tests.test_discovery_daily -v`.

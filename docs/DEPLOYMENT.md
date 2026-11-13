@@ -24,13 +24,15 @@ Public hosting, email and unattended paid publication remain inactive.
 - `.github/workflows/check.yml` verifies offline code and a disposable PostgreSQL service.
 - `.github/workflows/dry-run.yml` schedules offline fixture validation; it never publishes news.
 - Offline scheduled runs write `artifacts/pipeline-status.json`, retained by Actions even after failures.
-- `.github/workflows/live.yml` requires `LIVE_NEWS_ENABLED=true`; scheduled runs also require `UNATTENDED_PAID_APPROVED=true`.
+- Paid `.github/workflows/live.yml` runs require `LIVE_NEWS_ENABLED=true`; scheduled runs also require `UNATTENDED_PAID_APPROVED=true`.
 - Live workflow secrets/variables need explicit review before remote activation; local settings do not configure GitHub.
-- `pipeline:live -- --dry-run` still performs collection, writes audit records and can incur API costs.
-- That flag suppresses publication; use offline fixtures for no-network/no-cost checks.
+- MVP-4 `pipeline:daily -- run --dry-run` and compatibility `pipeline:live -- --dry-run` perform read-only stored-evidence planning.
+- These dry-runs never collect, reserve budget, call the API or publish. See [daily operations](MVP4_OPERATIONS.md).
 - Publication validates both locales and a matching review receipt, and stores evidence transactionally.
 - Failed-review drafts stay private. Historical replacement archives the exact prior edition and matching review.
 - Completed historical backfill is not a routine startup or health-check command.
+- The daily target is 07:00 Europe/Berlin with DST, durable resume and a USD 2 monthly application ceiling.
+- Paid scheduled execution requires both local configuration approval and the process approval flag; defaults remain disabled.
 
 ## Security and release authority
 

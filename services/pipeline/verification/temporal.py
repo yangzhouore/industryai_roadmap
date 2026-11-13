@@ -23,3 +23,20 @@ def publication_time(timestamp):
 
 def publication_day(timestamp):
     return publication_time(timestamp).astimezone(BERLIN).date().isoformat()
+
+
+def daily_source_window(issue_date):
+    """Previous complete Berlin calendar day, independent of DST day length."""
+    # day_bounds also enforces a canonical YYYY-MM-DD edition date.
+    day_bounds(issue_date)
+    source_date = (date.fromisoformat(issue_date) - timedelta(days=1)).isoformat()
+    start, end = day_bounds(source_date)
+    return {"dateBasis": "previous_complete_berlin_day", "sourceDate": source_date,
+            "startInclusive": start.isoformat(), "endExclusive": end.isoformat(),
+            "timezone": "Europe/Berlin"}
+
+
+def in_daily_source_window(timestamp, issue_date):
+    window = daily_source_window(issue_date)
+    return (publication_time(window["startInclusive"]) <= publication_time(timestamp)
+            < publication_time(window["endExclusive"]))

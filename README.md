@@ -2,7 +2,7 @@
 
 Original bilingual industrial intelligence site. Normal pages show only real validated publications.
 
-## Current MVP-3 state
+## Current MVP-4 state
 
 - PostgreSQL holds 140 real source articles and three published bilingual digests: November 6, 9 and 13, 2026.
 - The previous November 13 edition and its review are preserved in append-only revision history.
@@ -10,6 +10,8 @@ Original bilingual industrial intelligence site. Normal pages show only real val
 - Classification uses `gpt-6-luna`; generation and independent review use `gpt-6.1-terra`.
 - Public hosting, email delivery and unattended paid publication remain inactive.
 - See [MVP-3 report](docs/MVP3_BACKFILL_REPORT.md) for coverage limits and historical execution evidence.
+- MVP-4 adds Berlin scheduling, transactional monthly budgets, resumable editorial stages and operational status.
+- Automated paid execution remains disabled. See [daily operations](docs/MVP4_OPERATIONS.md).
 
 ## Local website
 
@@ -30,7 +32,7 @@ The Python live commands load supported settings from ignored root `.env.local`.
 Viewing existing publications requires no OpenAI API calls.
 
 For a new disposable database, see [database setup](packages/db/README.md).
-Do not migrate, seed, reset or rerun backfill merely to resume an existing working instance.
+Do not seed, reset or rerun backfill merely to resume an existing working instance; apply only reviewed upgrade migrations.
 
 ## Offline development and checks
 
@@ -52,8 +54,9 @@ The fixture pipeline (`npm run pipeline`) uses ignored `data/digest.sqlite` and 
 ## Live operation and safety
 
 Real collection and editorial execution are opt-in; credentials remain server-side and Git-ignored.
-`pipeline:live -- --dry-run` still collects, writes audits and can call the paid editor;
-it suppresses publication rather than guaranteeing an offline or free run.
+MVP-4 `npm run pipeline:daily -- run --dry-run` reads stored evidence without collection, API calls or publication.
+The compatibility `pipeline:live` entrypoint now uses the same guarded runner and safe dry-run semantics.
+`npm run pipeline:status` reports runs, missing schedule slots, source outcomes and estimated monthly usage.
 Historical backfill has already completed; do not rerun it as a startup step.
 The offline scheduled workflow uses the fixture CLI dry-run. The live workflow has separate opt-in guards.
 No public deployment, push, email or paid run is authorized by these setup instructions.
