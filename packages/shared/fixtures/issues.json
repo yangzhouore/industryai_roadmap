@@ -1,0 +1,431 @@
+[
+  {
+    "id": "issue-2026-11-12",
+    "slug": "2026-11-12",
+    "date": "2026-11-12",
+    "state": "published",
+    "validated": true,
+    "synthetic": true,
+    "title": {
+      "en": "From model to factory floor",
+      "zh": "从模型到工厂现场"
+    },
+    "introduction": {
+      "en": "A demonstration edition about the practical questions behind industrial AI. All stories and sources below are clearly synthetic.",
+      "zh": "关于工业人工智能实践问题的演示期刊。以下所有故事和来源均为明确标注的模拟内容。"
+    },
+    "sources": [
+      {
+        "id": "source-0-0",
+        "name": "Synthetic editorial fixture",
+        "url": "https://example.org/fixtures/2026-11-12/0",
+        "publishedAt": "2026-11-12T08:00:00Z",
+        "eventAt": null,
+        "timezone": "UTC",
+        "synthetic": true,
+        "excerpt": {
+          "en": "A synthetic pilot explores how engineers review model alerts on a production line.",
+          "zh": "此模拟试点探索工程师如何在产线上审核模型告警。"
+        }
+      },
+      {
+        "id": "source-0-1",
+        "name": "Synthetic editorial fixture",
+        "url": "https://example.org/fixtures/2026-11-12/1",
+        "publishedAt": "2026-11-12T08:00:00Z",
+        "eventAt": null,
+        "timezone": "UTC",
+        "synthetic": true,
+        "excerpt": {
+          "en": "A fictional workcell illustrates human review, task boundaries and safe recovery.",
+          "zh": "虚构工作站展示人工审核、任务边界和安全恢复。"
+        }
+      },
+      {
+        "id": "source-0-2",
+        "name": "Synthetic editorial fixture",
+        "url": "https://example.org/fixtures/2026-11-12/2",
+        "publishedAt": "2026-11-12T08:00:00Z",
+        "eventAt": null,
+        "timezone": "UTC",
+        "synthetic": true,
+        "excerpt": {
+          "en": "A synthetic research brief examines how uncertainty should travel with a forecast.",
+          "zh": "模拟研究简报讨论如何在预测中明确表达不确定性。"
+        }
+      }
+    ],
+    "stories": [
+      {
+        "id": "story-0-0",
+        "category": "Manufacturing AI",
+        "maturity": "pilot",
+        "company": "Demo Factory",
+        "kind": "feature",
+        "title": {
+          "en": "A closer look at visual inspection",
+          "zh": "走近工业视觉检测"
+        },
+        "summary": {
+          "en": "A synthetic pilot explores how engineers review model alerts on a production line.",
+          "zh": "此模拟试点探索工程师如何在产线上审核模型告警。"
+        },
+        "why": {
+          "en": "Editorial analysis: inspect the workflow, evidence and deployment constraints before drawing conclusions.",
+          "zh": "编辑分析：得出结论前，应审视工作流程、证据和部署约束。"
+        },
+        "limitation": {
+          "en": "Demonstration only. No real deployment, company or performance result is claimed.",
+          "zh": "仅供演示，不代表真实部署、公司或性能结果。"
+        },
+        "sourceIds": [
+          "source-0-0"
+        ],
+        "evidenceStatus": "synthetic",
+        "score": 80
+      },
+      {
+        "id": "story-0-1",
+        "category": "Robotics & Physical AI",
+        "maturity": "prototype",
+        "company": "Demo Robotics",
+        "kind": "feature",
+        "title": {
+          "en": "The handoff between robot and operator",
+          "zh": "机器人与操作员之间的交接"
+        },
+        "summary": {
+          "en": "A fictional workcell illustrates human review, task boundaries and safe recovery.",
+          "zh": "虚构工作站展示人工审核、任务边界和安全恢复。"
+        },
+        "why": {
+          "en": "Editorial analysis: inspect the workflow, evidence and deployment constraints before drawing conclusions.",
+          "zh": "编辑分析：得出结论前，应审视工作流程、证据和部署约束。"
+        },
+        "limitation": {
+          "en": "Demonstration only. No real deployment, company or performance result is claimed.",
+          "zh": "仅供演示，不代表真实部署、公司或性能结果。"
+        },
+        "sourceIds": [
+          "source-0-1"
+        ],
+        "evidenceStatus": "synthetic",
+        "score": 72
+      },
+      {
+        "id": "story-0-2",
+        "category": "Energy & Infrastructure AI",
+        "maturity": "research",
+        "company": "Demo Grid",
+        "kind": "quick_bite",
+        "title": {
+          "en": "Forecasting demand, acknowledging uncertainty",
+          "zh": "预测需求，承认不确定性"
+        },
+        "summary": {
+          "en": "A synthetic research brief examines how uncertainty should travel with a forecast.",
+          "zh": "模拟研究简报讨论如何在预测中明确表达不确定性。"
+        },
+        "why": {
+          "en": "Editorial analysis: inspect the workflow, evidence and deployment constraints before drawing conclusions.",
+          "zh": "编辑分析：得出结论前，应审视工作流程、证据和部署约束。"
+        },
+        "limitation": {
+          "en": "Demonstration only. No real deployment, company or performance result is claimed.",
+          "zh": "仅供演示，不代表真实部署、公司或性能结果。"
+        },
+        "sourceIds": [
+          "source-0-2"
+        ],
+        "evidenceStatus": "synthetic",
+        "score": 64
+      }
+    ]
+  },
+  {
+    "id": "issue-2026-11-11",
+    "slug": "2026-11-11",
+    "date": "2026-11-11",
+    "state": "published",
+    "validated": true,
+    "synthetic": true,
+    "title": {
+      "en": "Where automation meets judgment",
+      "zh": "当自动化遇上判断力"
+    },
+    "introduction": {
+      "en": "A demonstration edition about the practical questions behind industrial AI. All stories and sources below are clearly synthetic.",
+      "zh": "关于工业人工智能实践问题的演示期刊。以下所有故事和来源均为明确标注的模拟内容。"
+    },
+    "sources": [
+      {
+        "id": "source-1-0",
+        "name": "Synthetic editorial fixture",
+        "url": "https://example.org/fixtures/2026-11-11/0",
+        "publishedAt": "2026-11-11T08:00:00Z",
+        "eventAt": null,
+        "timezone": "UTC",
+        "synthetic": true,
+        "excerpt": {
+          "en": "A synthetic pilot explores how engineers review model alerts on a production line.",
+          "zh": "此模拟试点探索工程师如何在产线上审核模型告警。"
+        }
+      },
+      {
+        "id": "source-1-1",
+        "name": "Synthetic editorial fixture",
+        "url": "https://example.org/fixtures/2026-11-11/1",
+        "publishedAt": "2026-11-11T08:00:00Z",
+        "eventAt": null,
+        "timezone": "UTC",
+        "synthetic": true,
+        "excerpt": {
+          "en": "A fictional workcell illustrates human review, task boundaries and safe recovery.",
+          "zh": "虚构工作站展示人工审核、任务边界和安全恢复。"
+        }
+      },
+      {
+        "id": "source-1-2",
+        "name": "Synthetic editorial fixture",
+        "url": "https://example.org/fixtures/2026-11-11/2",
+        "publishedAt": "2026-11-11T08:00:00Z",
+        "eventAt": null,
+        "timezone": "UTC",
+        "synthetic": true,
+        "excerpt": {
+          "en": "A synthetic research brief examines how uncertainty should travel with a forecast.",
+          "zh": "模拟研究简报讨论如何在预测中明确表达不确定性。"
+        }
+      }
+    ],
+    "stories": [
+      {
+        "id": "story-1-0",
+        "category": "Manufacturing AI",
+        "maturity": "pilot",
+        "company": "Demo Factory",
+        "kind": "feature",
+        "title": {
+          "en": "A closer look at visual inspection",
+          "zh": "走近工业视觉检测"
+        },
+        "summary": {
+          "en": "A synthetic pilot explores how engineers review model alerts on a production line.",
+          "zh": "此模拟试点探索工程师如何在产线上审核模型告警。"
+        },
+        "why": {
+          "en": "Editorial analysis: inspect the workflow, evidence and deployment constraints before drawing conclusions.",
+          "zh": "编辑分析：得出结论前，应审视工作流程、证据和部署约束。"
+        },
+        "limitation": {
+          "en": "Demonstration only. No real deployment, company or performance result is claimed.",
+          "zh": "仅供演示，不代表真实部署、公司或性能结果。"
+        },
+        "sourceIds": [
+          "source-1-0"
+        ],
+        "evidenceStatus": "synthetic",
+        "score": 80
+      },
+      {
+        "id": "story-1-1",
+        "category": "Robotics & Physical AI",
+        "maturity": "prototype",
+        "company": "Demo Robotics",
+        "kind": "feature",
+        "title": {
+          "en": "The handoff between robot and operator",
+          "zh": "机器人与操作员之间的交接"
+        },
+        "summary": {
+          "en": "A fictional workcell illustrates human review, task boundaries and safe recovery.",
+          "zh": "虚构工作站展示人工审核、任务边界和安全恢复。"
+        },
+        "why": {
+          "en": "Editorial analysis: inspect the workflow, evidence and deployment constraints before drawing conclusions.",
+          "zh": "编辑分析：得出结论前，应审视工作流程、证据和部署约束。"
+        },
+        "limitation": {
+          "en": "Demonstration only. No real deployment, company or performance result is claimed.",
+          "zh": "仅供演示，不代表真实部署、公司或性能结果。"
+        },
+        "sourceIds": [
+          "source-1-1"
+        ],
+        "evidenceStatus": "synthetic",
+        "score": 72
+      },
+      {
+        "id": "story-1-2",
+        "category": "Energy & Infrastructure AI",
+        "maturity": "research",
+        "company": "Demo Grid",
+        "kind": "quick_bite",
+        "title": {
+          "en": "Forecasting demand, acknowledging uncertainty",
+          "zh": "预测需求，承认不确定性"
+        },
+        "summary": {
+          "en": "A synthetic research brief examines how uncertainty should travel with a forecast.",
+          "zh": "模拟研究简报讨论如何在预测中明确表达不确定性。"
+        },
+        "why": {
+          "en": "Editorial analysis: inspect the workflow, evidence and deployment constraints before drawing conclusions.",
+          "zh": "编辑分析：得出结论前，应审视工作流程、证据和部署约束。"
+        },
+        "limitation": {
+          "en": "Demonstration only. No real deployment, company or performance result is claimed.",
+          "zh": "仅供演示，不代表真实部署、公司或性能结果。"
+        },
+        "sourceIds": [
+          "source-1-2"
+        ],
+        "evidenceStatus": "synthetic",
+        "score": 64
+      }
+    ]
+  },
+  {
+    "id": "issue-2026-11-10",
+    "slug": "2026-11-10",
+    "date": "2026-11-10",
+    "state": "published",
+    "validated": true,
+    "synthetic": true,
+    "title": {
+      "en": "Signals from the industrial frontier",
+      "zh": "工业前沿信号"
+    },
+    "introduction": {
+      "en": "A demonstration edition about the practical questions behind industrial AI. All stories and sources below are clearly synthetic.",
+      "zh": "关于工业人工智能实践问题的演示期刊。以下所有故事和来源均为明确标注的模拟内容。"
+    },
+    "sources": [
+      {
+        "id": "source-2-0",
+        "name": "Synthetic editorial fixture",
+        "url": "https://example.org/fixtures/2026-11-10/0",
+        "publishedAt": "2026-11-10T08:00:00Z",
+        "eventAt": null,
+        "timezone": "UTC",
+        "synthetic": true,
+        "excerpt": {
+          "en": "A synthetic pilot explores how engineers review model alerts on a production line.",
+          "zh": "此模拟试点探索工程师如何在产线上审核模型告警。"
+        }
+      },
+      {
+        "id": "source-2-1",
+        "name": "Synthetic editorial fixture",
+        "url": "https://example.org/fixtures/2026-11-10/1",
+        "publishedAt": "2026-11-10T08:00:00Z",
+        "eventAt": null,
+        "timezone": "UTC",
+        "synthetic": true,
+        "excerpt": {
+          "en": "A fictional workcell illustrates human review, task boundaries and safe recovery.",
+          "zh": "虚构工作站展示人工审核、任务边界和安全恢复。"
+        }
+      },
+      {
+        "id": "source-2-2",
+        "name": "Synthetic editorial fixture",
+        "url": "https://example.org/fixtures/2026-11-10/2",
+        "publishedAt": "2026-11-10T08:00:00Z",
+        "eventAt": null,
+        "timezone": "UTC",
+        "synthetic": true,
+        "excerpt": {
+          "en": "A synthetic research brief examines how uncertainty should travel with a forecast.",
+          "zh": "模拟研究简报讨论如何在预测中明确表达不确定性。"
+        }
+      }
+    ],
+    "stories": [
+      {
+        "id": "story-2-0",
+        "category": "Manufacturing AI",
+        "maturity": "pilot",
+        "company": "Demo Factory",
+        "kind": "feature",
+        "title": {
+          "en": "A closer look at visual inspection",
+          "zh": "走近工业视觉检测"
+        },
+        "summary": {
+          "en": "A synthetic pilot explores how engineers review model alerts on a production line.",
+          "zh": "此模拟试点探索工程师如何在产线上审核模型告警。"
+        },
+        "why": {
+          "en": "Editorial analysis: inspect the workflow, evidence and deployment constraints before drawing conclusions.",
+          "zh": "编辑分析：得出结论前，应审视工作流程、证据和部署约束。"
+        },
+        "limitation": {
+          "en": "Demonstration only. No real deployment, company or performance result is claimed.",
+          "zh": "仅供演示，不代表真实部署、公司或性能结果。"
+        },
+        "sourceIds": [
+          "source-2-0"
+        ],
+        "evidenceStatus": "synthetic",
+        "score": 80
+      },
+      {
+        "id": "story-2-1",
+        "category": "Robotics & Physical AI",
+        "maturity": "prototype",
+        "company": "Demo Robotics",
+        "kind": "feature",
+        "title": {
+          "en": "The handoff between robot and operator",
+          "zh": "机器人与操作员之间的交接"
+        },
+        "summary": {
+          "en": "A fictional workcell illustrates human review, task boundaries and safe recovery.",
+          "zh": "虚构工作站展示人工审核、任务边界和安全恢复。"
+        },
+        "why": {
+          "en": "Editorial analysis: inspect the workflow, evidence and deployment constraints before drawing conclusions.",
+          "zh": "编辑分析：得出结论前，应审视工作流程、证据和部署约束。"
+        },
+        "limitation": {
+          "en": "Demonstration only. No real deployment, company or performance result is claimed.",
+          "zh": "仅供演示，不代表真实部署、公司或性能结果。"
+        },
+        "sourceIds": [
+          "source-2-1"
+        ],
+        "evidenceStatus": "synthetic",
+        "score": 72
+      },
+      {
+        "id": "story-2-2",
+        "category": "Energy & Infrastructure AI",
+        "maturity": "research",
+        "company": "Demo Grid",
+        "kind": "quick_bite",
+        "title": {
+          "en": "Forecasting demand, acknowledging uncertainty",
+          "zh": "预测需求，承认不确定性"
+        },
+        "summary": {
+          "en": "A synthetic research brief examines how uncertainty should travel with a forecast.",
+          "zh": "模拟研究简报讨论如何在预测中明确表达不确定性。"
+        },
+        "why": {
+          "en": "Editorial analysis: inspect the workflow, evidence and deployment constraints before drawing conclusions.",
+          "zh": "编辑分析：得出结论前，应审视工作流程、证据和部署约束。"
+        },
+        "limitation": {
+          "en": "Demonstration only. No real deployment, company or performance result is claimed.",
+          "zh": "仅供演示，不代表真实部署、公司或性能结果。"
+        },
+        "sourceIds": [
+          "source-2-2"
+        ],
+        "evidenceStatus": "synthetic",
+        "score": 64
+      }
+    ]
+  }
+]

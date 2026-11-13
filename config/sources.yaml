@@ -1,0 +1,201 @@
+{
+  "review_scope": "Opt-in local non-commercial feed metadata research. No full article crawling or republication license is asserted.",
+  "sources": [
+    {
+      "id": "siemens-simcenter",
+      "name": "Siemens Simcenter",
+      "homepage": "https://blogs.sw.siemens.com/simcenter/",
+      "feed_url": "https://blogs.sw.siemens.com/simcenter/feed/",
+      "allowed_hosts": [
+        "blogs.sw.siemens.com"
+      ],
+      "active": true,
+      "synthetic": false,
+      "feed_permitted": true,
+      "policy_reviewed": true,
+      "excerpt_permitted": true,
+      "policy_checked_at": "2026-11-13",
+      "policy_evidence": [
+        "https://blogs.sw.siemens.com/simcenter/",
+        "https://blogs.sw.siemens.com/simcenter/feed/"
+      ],
+      "policy_note": "Publisher-hosted RSS endpoint; robots and feed returned 200. Store headline, attribution, dates, URL and at most 400 characters of feed description for local research. No article bodies.",
+      "request_interval_seconds": 2,
+      "redistribution_permitted": false,
+      "policy_scope": "local_noncommercial",
+      "archive_feeds": [
+        "https://blogs.sw.siemens.com/simcenter/feed/?paged=2"
+      ],
+      "archive_checked_at": "2026-11-13",
+      "archive_note": "Verified publisher RSS endpoints, robots-aware, metadata and bounded supplied descriptions only; month-targeted backfill uses original publication times."
+    },
+    {
+      "id": "nvidia-robotics",
+      "name": "NVIDIA Robotics Newsroom",
+      "homepage": "https://nvidianews.nvidia.com/",
+      "feed_url": "https://nvidianews.nvidia.com/cats/robotics.xml",
+      "allowed_hosts": [
+        "nvidianews.nvidia.com",
+        "blogs.nvidia.com"
+      ],
+      "active": true,
+      "synthetic": false,
+      "feed_permitted": true,
+      "policy_reviewed": true,
+      "excerpt_permitted": true,
+      "policy_checked_at": "2026-11-13",
+      "policy_evidence": [
+        "https://nvidianews.nvidia.com/rss",
+        "https://www.nvidia.com/en-us/about-nvidia/rss/"
+      ],
+      "policy_note": "Official RSS directory links Robotics feed. NVIDIA RSS information service is restricted to non-commercial purposes; this collection is local non-commercial research. No full article bodies or images.",
+      "request_interval_seconds": 2,
+      "redistribution_permitted": false,
+      "policy_scope": "local_noncommercial",
+      "archive_feeds": [
+        "https://blogs.nvidia.com/blog/category/robotics/feed/",
+        "https://blogs.nvidia.com/blog/tag/robotics/feed/",
+        "https://blogs.nvidia.com/blog/tag/omniverse/feed/",
+        "https://blogs.nvidia.com/blog/tag/cosmos/feed/",
+        "https://blogs.nvidia.com/blog/tag/isaac/feed/",
+        "https://nvidianews.nvidia.com/rss.xml"
+      ],
+      "archive_checked_at": "2026-11-13",
+      "archive_note": "Verified publisher RSS endpoints, robots-aware, metadata and bounded supplied descriptions only; month-targeted backfill uses original publication times."
+    },
+    {
+      "id": "aws-industries",
+      "name": "AWS for Industries",
+      "homepage": "https://aws.amazon.com/blogs/industries/",
+      "feed_url": "https://aws.amazon.com/blogs/industries/feed/",
+      "allowed_hosts": [
+        "aws.amazon.com"
+      ],
+      "active": true,
+      "synthetic": false,
+      "feed_permitted": true,
+      "policy_reviewed": true,
+      "excerpt_permitted": true,
+      "policy_checked_at": "2026-11-13",
+      "policy_evidence": [
+        "https://aws.amazon.com/blogs/industries/",
+        "https://aws.amazon.com/blogs/industries/feed/"
+      ],
+      "policy_note": "Publisher-hosted public RSS endpoint, robots and feed returned 200. Retain only supplied feed metadata and bounded description for local research; discard content:encoded and do not fetch articles.",
+      "request_interval_seconds": 2,
+      "redistribution_permitted": false,
+      "policy_scope": "local_noncommercial"
+    },
+    {
+      "id": "mit-robotics",
+      "name": "MIT News Robotics",
+      "homepage": "https://news.mit.edu/",
+      "feed_url": "https://news.mit.edu/topic/mitrobotics-rss.xml",
+      "allowed_hosts": [
+        "news.mit.edu"
+      ],
+      "active": true,
+      "synthetic": false,
+      "feed_permitted": true,
+      "policy_reviewed": true,
+      "excerpt_permitted": true,
+      "policy_checked_at": "2026-11-13",
+      "policy_evidence": [
+        "https://news.mit.edu/rss",
+        "https://news.mit.edu/terms-of-use"
+      ],
+      "policy_note": "MIT explicitly offers RSS for syndication. Preserve authors, original headline, source URL and MIT News attribution. Full republication requires MIT's specified notices; no full stories or images are retained here.",
+      "request_interval_seconds": 2,
+      "redistribution_permitted": false,
+      "policy_scope": "local_noncommercial"
+    },
+    {
+      "id": "schneider-electric",
+      "name": "Schneider Electric Blog",
+      "homepage": "https://blog.se.com/",
+      "feed_url": "https://blog.se.com/feed/",
+      "allowed_hosts": [
+        "blog.se.com"
+      ],
+      "active": true,
+      "synthetic": false,
+      "feed_permitted": true,
+      "policy_reviewed": true,
+      "excerpt_permitted": true,
+      "policy_checked_at": "2026-11-13",
+      "policy_evidence": [
+        "https://blog.se.com/",
+        "https://blog.se.com/feed/"
+      ],
+      "policy_note": "Publisher-hosted RSS endpoint, robots and feed returned 200. Local headline/link/date and bounded feed-description research only. No article-body collection or redistribution license asserted.",
+      "request_interval_seconds": 2,
+      "redistribution_permitted": false,
+      "policy_scope": "local_noncommercial",
+      "archive_feeds": [
+        "https://blog.se.com/2026/11/feed/"
+      ],
+      "archive_checked_at": "2026-11-13",
+      "archive_note": "Verified publisher RSS endpoints, robots-aware, metadata and bounded supplied descriptions only; month-targeted backfill uses original publication times."
+    },
+    {
+      "id": "microsoft-cloud",
+      "name": "Microsoft Cloud Blog",
+      "homepage": "https://www.microsoft.com/en-us/microsoft-cloud/blog/",
+      "feed_url": "https://www.microsoft.com/en-us/microsoft-cloud/blog/feed/",
+      "allowed_hosts": [
+        "www.microsoft.com",
+        "blogs.microsoft.com"
+      ],
+      "active": true,
+      "synthetic": false,
+      "feed_permitted": true,
+      "policy_reviewed": true,
+      "excerpt_permitted": true,
+      "policy_checked_at": "2026-11-13",
+      "policy_evidence": [
+        "https://www.microsoft.com/en-us/microsoft-cloud/blog/",
+        "https://www.microsoft.com/en-us/microsoft-cloud/blog/feed/"
+      ],
+      "policy_note": "Publisher-hosted public RSS endpoint; old industry feed redirects to this endpoint. Local metadata and bounded feed-description research only; no article bodies or redistribution license asserted.",
+      "request_interval_seconds": 2,
+      "redistribution_permitted": false,
+      "policy_scope": "local_noncommercial"
+    },
+    {
+      "id": "arxiv-robotics",
+      "name": "arXiv Robotics",
+      "active": false,
+      "synthetic": false,
+      "feed_url": "https://rss.arxiv.org/rss/cs.RO",
+      "checked_at": "2026-11-13",
+      "disabled_reason": "robots.txt returned HTTP404; fail-closed network policy prevented feed retrieval. Official RSS and API terms verified at https://info.arxiv.org/help/rss.html and https://info.arxiv.org/help/api/tou.html; no bypass."
+    },
+    {
+      "id": "robot-report",
+      "name": "The Robot Report",
+      "active": false,
+      "synthetic": false,
+      "feed_url": "https://www.therobotreport.com/feed/",
+      "checked_at": "2026-11-13",
+      "disabled_reason": "Robots/feed returned200 and15 items in endpoint probe, but broader third-party caching/reuse permission remains unresolved; not enabled for persistent ingestion."
+    },
+    {
+      "id": "rockwell-candidate",
+      "name": "Rockwell Automation candidate",
+      "active": false,
+      "synthetic": false,
+      "feed_url": "https://www.rockwellautomation.com/en-us/company/news/blogs.rss.xml",
+      "checked_at": "2026-11-13",
+      "disabled_reason": "robots.txt HTTP403; feed not retrieved. Candidate URL not verified as a working feed."
+    },
+    {
+      "id": "siemens-root",
+      "name": "Siemens root feed",
+      "active": false,
+      "synthetic": false,
+      "feed_url": "https://blogs.sw.siemens.com/feed/",
+      "checked_at": "2026-11-13",
+      "disabled_reason": "HTTP200 but zero entries. Use verified Simcenter product feed instead."
+    }
+  ]
+}

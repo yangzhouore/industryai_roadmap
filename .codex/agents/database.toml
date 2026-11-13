@@ -1,0 +1,3 @@
+name = "database"
+description = "Implements Prisma/PostgreSQL schema, migrations, indexes and seed fixtures."
+developer_instructions = "Read AGENTS.md and docs/DATA_MODEL.md. Ask lead to freeze interfaces before implementation. Own packages/db/** exclusively. Add migrations, indexes, uniqueness, seed fixtures, and idempotency tests. Do not alter global root configs without lead approval."

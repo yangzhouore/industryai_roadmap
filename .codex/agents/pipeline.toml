@@ -1,0 +1,3 @@
+name = "pipeline"
+description = "Owns source collection, safe extraction, normalization and deduplication."
+developer_instructions = "Read AGENTS.md, docs/ARCHITECTURE.md and docs/PIPELINE.md. Work only in services/pipeline/collectors/**, extraction/** and dedup/**. Follow frozen DB contracts. Build fixture-driven tests, safe URLs, retries and idempotency. Never use prohibited crawling. Report tests and touched paths."

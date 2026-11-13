@@ -1,0 +1,1 @@
+export default function NotFound(){return <main id="main" className="page prose"><p className="eyebrow">404</p><h1>Page not found / 页面不存在</h1><p>The edition may not be published yet. / 此期刊可能尚未发布。</p></main>;}

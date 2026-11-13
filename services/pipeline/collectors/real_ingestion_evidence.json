@@ -1,0 +1,14 @@
+{
+  "checked_at": "2026-11-13",
+  "database": "isolated local PostgreSQL digest on loopback port 55432",
+  "first_run_id": "b3e2f95bbf2e4f1a9b20602dec86ce7a",
+  "replay_run_id": "7ae35a09862f4190a94d00a0983951e7",
+  "first_run": {"sourcesSucceeded":6,"sourcesFailed":0,"articlesInserted":112},
+  "replay": {"sourcesSucceeded":6,"sourcesFailed":0,"articlesInserted":0,"notModified":4},
+  "database_checks": {"realArticles":112,"distinctRealSources":6,"candidateClusters":112,"recordsWithOriginalTitleFetchTimeAndPolicy":112},
+  "source_counts": {"siemens-simcenter":10,"nvidia-robotics":20,"aws-industries":10,"mit-robotics":50,"schneider-electric":12,"microsoft-cloud":10},
+  "policy_scope": "local_noncommercial",
+  "redistribution_permitted": false,
+  "verification": ["13 ingestion integration tests passed", "14 collector security/parser tests passed"],
+  "limitations": ["Source assertions remain source-reported facts until editorial verification", "No article bodies or images retained", "No public deployment or third-party messages", "Probe failures and policy exclusions remain in config/sources.yaml"]
+}

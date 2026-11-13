@@ -1,0 +1,96 @@
+{
+  "checked_at": "2026-11-13",
+  "window": {
+    "start": "2026-11-01",
+    "end": "2026-11-13",
+    "timezone": "Europe/Berlin"
+  },
+  "outcomes": [
+    {
+      "sourceId": "schneider-electric",
+      "url": "https://blog.se.com/feed/?m=202611",
+      "outcome": "robots_disallowed"
+    },
+    {
+      "sourceId": "schneider-electric",
+      "url": "https://blog.se.com/feed/?paged=2",
+      "outcome": "robots_disallowed"
+    },
+    {
+      "sourceId": "schneider-electric",
+      "url": "https://blog.se.com/page/2/feed/",
+      "outcome": "HTTP404"
+    },
+    {
+      "sourceId": "schneider-electric",
+      "url": "https://blog.se.com/2026/11/01/feed/",
+      "outcome": "HTTP404"
+    },
+    {
+      "sourceId": "schneider-electric",
+      "url": "https://blog.se.com/2026/11/page/2/feed/",
+      "outcome": "HTTP404"
+    },
+    {
+      "sourceId": "aws-industries",
+      "url": "https://aws.amazon.com/blogs/industries/feed/?paged=2",
+      "outcome": "HTTP200_same_payload_as_primary_no_pagination"
+    },
+    {
+      "sourceId": "aws-industries",
+      "url": "https://aws.amazon.com/blogs/industries/feed/?m=202611",
+      "outcome": "HTTP200_same_payload_as_primary_no_date_filter"
+    },
+    {
+      "sourceId": "aws-industries",
+      "url": "https://aws.amazon.com/blogs/industries/2026/11/feed/",
+      "outcome": "HTTP404"
+    },
+    {
+      "sourceId": "siemens-simcenter",
+      "url": "https://blogs.sw.siemens.com/simcenter/feed/?m=202611",
+      "outcome": "redirected_to_HTML_not_a_feed"
+    },
+    {
+      "sourceId": "microsoft-cloud",
+      "url": "https://www.microsoft.com/en-us/microsoft-cloud/blog/feed/?paged=2",
+      "outcome": "HTTP200_JuneJuly_records_outside_window"
+    },
+    {
+      "sourceId": "mit-robotics",
+      "url": "https://news.mit.edu/topic/mitrobotics-rss.xml?page=1",
+      "outcome": "HTTP200_same50items_no_additional_window_records"
+    },
+    {
+      "sourceId": "nvidia-robotics",
+      "url": "https://blogs.nvidia.com/2026/11/feed/",
+      "outcome": "HTTP404"
+    },
+    {
+      "sourceId": "nvidia-robotics",
+      "url": "https://blogs.nvidia.com/2026/11/01/feed/",
+      "outcome": "HTTP404"
+    },
+    {
+      "sourceId": "arxiv-robotics",
+      "url": "https://export.arxiv.org/api/query",
+      "outcome": "robots_disallowed_API_not_queried"
+    },
+    {
+      "sourceId": "arxiv-robotics",
+      "url": "https://rss.arxiv.org/rss/cs.RO",
+      "outcome": "robots_HTTP404_feed_not_queried"
+    },
+    {
+      "sourceId": "rockwell-candidate",
+      "url": "https://www.rockwellautomation.com/robots.txt",
+      "outcome": "HTTP403_feed_not_queried"
+    },
+    {
+      "sourceId": "robot-report",
+      "url": "https://www.therobotreport.com/feed/",
+      "outcome": "persistence_disabled_unresolved_reuse_terms"
+    }
+  ],
+  "limitation": "Unavailable endpoints are not evidence that no news existed. No robots restrictions or access controls bypassed."
+}

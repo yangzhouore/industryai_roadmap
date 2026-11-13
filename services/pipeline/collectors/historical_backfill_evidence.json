@@ -1,0 +1,199 @@
+{
+  "checked_at": "2026-11-13",
+  "window": {
+    "start": "2026-11-01",
+    "end": "2026-11-13",
+    "timezone": "Europe/Berlin",
+    "dateBasis": "source_publication"
+  },
+  "before": {
+    "totalReal": 112,
+    "inWindow": 27
+  },
+  "after": {
+    "totalReal": 140,
+    "inWindow": 55
+  },
+  "firstRunId": "a86d65dc582e4a1cb817a184203a2d71",
+  "firstRunInserted": 27,
+  "replayRunId": "b28485737800479aa8fdd180f009f361",
+  "replayInserted": 1,
+  "sourceCounts": {
+    "aws-industries": 10,
+    "microsoft-cloud": 13,
+    "mit-robotics": 50,
+    "nvidia-robotics": 43,
+    "schneider-electric": 14,
+    "siemens-simcenter": 10
+  },
+  "berlinDaily": {
+    "2026-11-01": 0,
+    "2026-11-02": 1,
+    "2026-11-03": 4,
+    "2026-11-04": 4,
+    "2026-11-05": 10,
+    "2026-11-06": 2,
+    "2026-11-07": 1,
+    "2026-11-08": 2,
+    "2026-11-09": 10,
+    "2026-11-10": 7,
+    "2026-11-11": 4,
+    "2026-11-12": 7,
+    "2026-11-13": 3
+  },
+  "verifiedEndpoints": [
+    {
+      "sourceId": "siemens-simcenter",
+      "url": "https://blogs.sw.siemens.com/simcenter/feed/",
+      "received": 10,
+      "inWindow": 5,
+      "httpStatuses": [
+        200,
+        200
+      ]
+    },
+    {
+      "sourceId": "siemens-simcenter",
+      "url": "https://blogs.sw.siemens.com/simcenter/feed/?paged=2",
+      "received": 10,
+      "inWindow": 0,
+      "httpStatuses": [
+        200,
+        200
+      ]
+    },
+    {
+      "sourceId": "nvidia-robotics",
+      "url": "https://nvidianews.nvidia.com/cats/robotics.xml",
+      "received": 20,
+      "inWindow": 0,
+      "httpStatuses": [
+        200,
+        200
+      ]
+    },
+    {
+      "sourceId": "nvidia-robotics",
+      "url": "https://blogs.nvidia.com/blog/category/robotics/feed/",
+      "received": 18,
+      "inWindow": 4,
+      "httpStatuses": [
+        200,
+        200
+      ]
+    },
+    {
+      "sourceId": "nvidia-robotics",
+      "url": "https://blogs.nvidia.com/blog/tag/robotics/feed/",
+      "received": 18,
+      "inWindow": 2,
+      "httpStatuses": [
+        200,
+        200
+      ]
+    },
+    {
+      "sourceId": "nvidia-robotics",
+      "url": "https://blogs.nvidia.com/blog/tag/omniverse/feed/",
+      "received": 18,
+      "inWindow": 4,
+      "httpStatuses": [
+        200,
+        200
+      ]
+    },
+    {
+      "sourceId": "nvidia-robotics",
+      "url": "https://blogs.nvidia.com/blog/tag/cosmos/feed/",
+      "received": 18,
+      "inWindow": 2,
+      "httpStatuses": [
+        200,
+        200
+      ]
+    },
+    {
+      "sourceId": "nvidia-robotics",
+      "url": "https://blogs.nvidia.com/blog/tag/isaac/feed/",
+      "received": 18,
+      "inWindow": 2,
+      "httpStatuses": [
+        200,
+        200
+      ]
+    },
+    {
+      "sourceId": "nvidia-robotics",
+      "url": "https://nvidianews.nvidia.com/rss.xml",
+      "received": 20,
+      "inWindow": 20,
+      "httpStatuses": [
+        200,
+        200
+      ]
+    },
+    {
+      "sourceId": "aws-industries",
+      "url": "https://aws.amazon.com/blogs/industries/feed/",
+      "received": 10,
+      "inWindow": 6,
+      "httpStatuses": [
+        200,
+        200
+      ]
+    },
+    {
+      "sourceId": "mit-robotics",
+      "url": "https://news.mit.edu/topic/mitrobotics-rss.xml",
+      "received": 50,
+      "inWindow": 4,
+      "httpStatuses": [
+        200,
+        200
+      ]
+    },
+    {
+      "sourceId": "schneider-electric",
+      "url": "https://blog.se.com/feed/",
+      "received": 12,
+      "inWindow": 12,
+      "httpStatuses": [
+        200,
+        200
+      ]
+    },
+    {
+      "sourceId": "schneider-electric",
+      "url": "https://blog.se.com/2026/11/feed/",
+      "received": 12,
+      "inWindow": 12,
+      "httpStatuses": [
+        200,
+        200
+      ]
+    },
+    {
+      "sourceId": "microsoft-cloud",
+      "url": "https://www.microsoft.com/en-us/microsoft-cloud/blog/feed/",
+      "received": 10,
+      "inWindow": 3,
+      "httpStatuses": [
+        200,
+        200
+      ]
+    }
+  ],
+  "policy_scope": "local_noncommercial",
+  "limitations": [
+    "November 1 has no recovered items; this is a coverage gap, not a claim that no industrial news existed.",
+    "Event dates remain separate and unknown unless explicitly supplied; no event date is inferred from publication time.",
+    "Schneider query-parameter archives blocked by robots; allowed published month-path RSS worked.",
+    "AWS pagination/month query ignored; year/month/feed path returned404.",
+    "NVIDIA month/day path feeds and Schneider day/paged month path returned404.",
+    "arXiv RSS robots404 and official export API robots disallow collection; no bypass.",
+    "Rockwell robots403 and Robot Report unresolved reuse terms remain disabled."
+  ],
+  "finalReplayRunId": "4eee6da680e64feea422c46ecc84593a",
+  "finalReplayInserted": 0,
+  "duplicateCanonicalUrls": 0
+}

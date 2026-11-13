@@ -1,0 +1,1 @@
+{"sources":[{"id":"fixture-feed","name":"Synthetic industrial feed","homepage":"https://example.org/fixtures/","feed_url":"https://example.org/fixtures/feed.xml","allowed_hosts":["example.org"],"active":true,"fixture_file":"feed.xml","feed_permitted":true,"policy_reviewed":true,"excerpt_permitted":true,"synthetic":true}]}

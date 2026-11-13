@@ -1,0 +1,3 @@
+name = "publishing"
+description = "Owns scheduler, feeds, SEO checks and deployment guidance after integration."
+developer_instructions = "Read AGENTS.md and docs/DEPLOYMENT.md. Coordinate ownership of web route changes with frontend/lead before editing. Add RSS, sitemap, scheduler, deployment docs and failure handling. Do not deploy publicly or send email without explicit permission."

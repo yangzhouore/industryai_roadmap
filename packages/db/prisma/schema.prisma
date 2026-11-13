@@ -1,0 +1,198 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model DigestIssue {
+  id          String        @id
+  slug        String        @unique
+  issueDate   String        @unique @map("issue_date")
+  state       String        @default("draft")
+  validated   Boolean       @default(false)
+  content     Json
+  publishedAt DateTime?     @map("published_at") @db.Timestamptz(6)
+  stories     DigestStory[]
+  deliveries  DeliveryLog[]
+
+  // Publication CHECK constraints and expression GIN indexes live in SQL migrations.
+  @@index([state, validated, issueDate], map: "issues_public")
+  @@map("issues")
+}
+
+model Source {
+  id          String       @id
+  name        String
+  homepage    String
+  feedUrl     String?      @map("feed_url")
+  sourceType  String       @map("source_type")
+  active      Boolean      @default(true)
+  fetchPolicy Json         @map("fetch_policy")
+  articles    RawArticle[]
+
+  @@map("sources")
+}
+
+model RawArticle {
+  id             String               @id
+  sourceId       String               @map("source_id")
+  source         Source               @relation(fields: [sourceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  canonicalUrl   String               @unique @map("canonical_url")
+  title          String
+  bodyExcerpt    String               @map("body_excerpt")
+  publishedAt    DateTime             @map("published_at") @db.Timestamptz(6)
+  eventAt        DateTime?            @map("event_at") @db.Timestamptz(6)
+  sourceTimezone String               @map("source_timezone")
+  collectedAt    DateTime             @default(now()) @map("collected_at") @db.Timestamptz(6)
+  contentHash    String               @map("content_hash")
+  rawMetadata    Json                 @map("raw_metadata")
+  clusters       ArticleClusterLink[]
+  citations      StoryCitation[]
+
+  @@index([publishedAt], map: "articles_date")
+  @@map("raw_articles")
+}
+
+model PipelineRun {
+  id        String    @id @default(cuid())
+  startedAt DateTime  @default(now()) @map("started_at") @db.Timestamptz(6)
+  endedAt   DateTime? @map("ended_at") @db.Timestamptz(6)
+  mode      String
+  status    String
+  stage     String
+  stats     Json
+  error     String?
+
+  @@map("pipeline_runs")
+}
+
+model StoryCluster {
+  id        String               @id
+  label     String
+  eventDate DateTime?            @map("event_date") @db.Date
+  category  String
+  maturity  String
+  status    String
+  articles  ArticleClusterLink[]
+  entities  StoryEntityLink[]
+  scores    Score[]
+  stories   DigestStory[]
+
+  @@map("story_clusters")
+}
+
+model ArticleClusterLink {
+  clusterId String       @map("cluster_id")
+  articleId String       @map("article_id")
+  cluster   StoryCluster @relation(fields: [clusterId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  article   RawArticle   @relation(fields: [articleId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([clusterId, articleId])
+  @@map("article_cluster_links")
+}
+
+model Entity {
+  id            String            @id
+  name          String
+  entityType    String            @map("entity_type")
+  canonicalName String            @unique @map("canonical_name")
+  stories       StoryEntityLink[]
+
+  @@map("entities")
+}
+
+model StoryEntityLink {
+  clusterId    String       @map("cluster_id")
+  entityId     String       @map("entity_id")
+  relationship String
+  cluster      StoryCluster @relation(fields: [clusterId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  entity       Entity       @relation(fields: [entityId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([clusterId, entityId, relationship])
+  @@map("story_entity_links")
+}
+
+model Score {
+  clusterId      String       @map("cluster_id")
+  scoringVersion String       @map("scoring_version")
+  dimensions     Json         @map("dimensions_json")
+  finalScore     Float        @map("final_score")
+  scoredAt       DateTime     @default(now()) @map("scored_at") @db.Timestamptz(6)
+  cluster        StoryCluster @relation(fields: [clusterId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([clusterId, scoringVersion])
+  @@map("scores")
+}
+
+model DigestStory {
+  id                String          @id
+  issueId           String          @map("issue_id")
+  clusterId         String?         @map("cluster_id")
+  position          Int
+  kind              String
+  structuredContent Json            @map("structured_content")
+  evidenceStatus    String          @map("evidence_status")
+  issue             DigestIssue     @relation(fields: [issueId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  cluster           StoryCluster?   @relation(fields: [clusterId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  citations         StoryCitation[]
+  translations      Translation[]
+
+  @@unique([issueId, position])
+  @@map("digest_stories")
+}
+
+model StoryCitation {
+  storyId          String      @map("story_id")
+  rawArticleId     String      @map("raw_article_id")
+  claimKey         String      @map("claim_key")
+  sourceUrl        String      @map("source_url")
+  excerptOrPointer String      @map("excerpt_or_pointer")
+  story            DigestStory @relation(fields: [storyId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  article          RawArticle  @relation(fields: [rawArticleId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([storyId, rawArticleId, claimKey])
+  @@map("story_citations")
+}
+
+model Translation {
+  storyId         String      @map("story_id")
+  locale          String
+  title           String
+  summary         String
+  structuredBody  Json        @map("structured_body")
+  validationState String      @map("validation_state")
+  story           DigestStory @relation(fields: [storyId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([storyId, locale])
+  @@map("translations")
+}
+
+model DeliveryLog {
+  id          String       @id
+  issueId     String?      @map("issue_id")
+  channel     String
+  status      String
+  deliveredAt DateTime?    @map("delivered_at") @db.Timestamptz(6)
+  error       String?
+  issue       DigestIssue? @relation(fields: [issueId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@map("delivery_logs")
+}
+
+model EditionRevision {
+  id         String   @id
+  issueId    String   @map("issue_id")
+  revision   Int
+  content    Json
+  review     Json
+  archivedAt DateTime @default(now()) @map("archived_at") @db.Timestamptz(6)
+
+  // Historical IDs intentionally survive correction/replacement without an FK.
+  // SQL trigger makes archived versions append-only.
+  @@unique([issueId, revision])
+  @@index([issueId, archivedAt], map: "edition_revisions_issue_archive")
+  @@map("edition_revisions")
+}

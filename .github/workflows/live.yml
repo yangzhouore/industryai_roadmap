@@ -1,0 +1,45 @@
+name: Real industrial news
+on:
+  workflow_dispatch:
+    inputs:
+      publish:
+        type: boolean
+        default: false
+  schedule:
+    - cron: '30 7 * * *'
+permissions:
+  contents: read
+concurrency:
+  group: industrial-news-publication
+  cancel-in-progress: false
+jobs:
+  pipeline:
+    if: vars.LIVE_NEWS_ENABLED == 'true' && (github.event_name != 'schedule' || vars.UNATTENDED_PAID_APPROVED == 'true')
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      OPENAI_MODEL: ${{ vars.OPENAI_MODEL }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r services/pipeline/requirements.txt
+      - name: Collect and prepare
+        env:
+          PUBLISH: ${{ github.event_name == 'schedule' || inputs.publish }}
+        run: |
+          if [ "$PUBLISH" = "true" ]; then
+            python -m services.pipeline.live
+          else
+            python -m services.pipeline.live --dry-run
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: live-news-status
+          path: |
+            artifacts/live-status.json
+            artifacts/live-draft.json
