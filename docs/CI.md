@@ -28,6 +28,10 @@
 - The harness refuses remote browser targets and retains all accessibility,
   desktop/mobile, contrast, keyboard and locale assertions. Browser checks stay enabled.
 - Browser screenshots/report are uploaded even after failures for diagnosis.
+- Chrome has a bounded 90-second startup window on busy runners, accepts its
+  documented stderr debugging endpoint as well as DevToolsActivePort, and reports
+  launch errors/signals explicitly. Readiness never skips browser assertions.
+- Checkout does not persist the GitHub read token into the working tree.
 - Chromium's supported helper/fallback options are documented in its
   [Ubuntu sandbox guide](https://chromium.googlesource.com/chromium/src/+/main/docs/security/apparmor-userns-restrictions.md).
 

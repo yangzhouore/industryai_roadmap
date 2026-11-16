@@ -19,11 +19,12 @@ const candidates=[process.env.CHROME_PATH,process.env.BROWSER_EXECUTABLE,'C:/Pro
 let executable;
 for(const candidate of candidates){try{await fs.access(candidate);executable=candidate;break;}catch{}}
 if(!executable)throw new Error('No installed Chromium executable. Set BROWSER_EXECUTABLE; this test does not download browsers.');
-let browserErrors='',sandboxDisabled=false;
+let browserErrors='',sandboxDisabled=false,launchError=null;
 function launchBrowser(disableSandbox=false){
-  browserErrors='';
-  const process=spawn(executable,['--headless=new',...(disableSandbox?['--no-sandbox']:[]),'--remote-debugging-port=0','--remote-debugging-address=127.0.0.1',`--user-data-dir=${profile}`,'--no-first-run','--no-default-browser-check','--disable-background-networking','--disable-extensions','--force-color-profile=srgb','about:blank'],{windowsHide:true,stdio:['ignore','ignore','pipe']});
+  browserErrors='';launchError=null;
+  const process=spawn(executable,['--headless=new',...(disableSandbox?['--no-sandbox']:[]),'--remote-debugging-port=0','--remote-debugging-address=127.0.0.1',`--user-data-dir=${profile}`,'--no-first-run','--no-default-browser-check','--disable-background-networking','--disable-extensions','--disable-dev-shm-usage','--password-store=basic','--use-mock-keychain','--force-color-profile=srgb','about:blank'],{windowsHide:true,stdio:['ignore','ignore','pipe']});
   process.stderr.on('data',data=>{browserErrors+=data.toString();});
+  process.on('error',error=>{launchError=error.code||error.name;});
   return process;
 }
 let browser=launchBrowser();
@@ -64,8 +65,25 @@ async function audit(name,locale){
   for(const href of result.hrefs){const url=new URL(href);if(url.origin===base.origin){url.hash='';links.add(url.href);}}
 }
 try{
-  let activePort;for(let n=0;n<150;n++){try{activePort=await fs.readFile(path.join(profile,'DevToolsActivePort'),'utf8');break;}catch{if(browser.exitCode!==null){if(noSandboxRequested&&!sandboxDisabled&&browserErrors.includes('No usable sandbox!')){console.warn('Isolated GitHub fixture QA: sandbox unavailable; applying explicit CI-only fallback.');sandboxDisabled=true;browser=launchBrowser(true);}else throw new Error('Browser exited: '+browserErrors);}await sleep(100);}}
-  if(!activePort)throw new Error('Browser debugging endpoint unavailable: '+browserErrors);
+  let activePort;
+  const startupStarted=Date.now(),startupDeadline=startupStarted+90000;
+  console.log('Waiting up to 90 seconds for the isolated Chromium debugging endpoint.');
+  while(Date.now()<startupDeadline){
+    if(launchError)throw new Error('Browser could not launch: '+launchError);
+    try{activePort=await fs.readFile(path.join(profile,'DevToolsActivePort'),'utf8');}catch{}
+    // Chrome also reports this supported endpoint on stderr; do not depend on one file-write timing.
+    const announced=browserErrors.match(/DevTools listening on ws:\/\/127\.0\.0\.1:(\d+)\//);
+    if(!activePort&&announced)activePort=announced[1]+'\n';
+    if(activePort&&/^\d+\s*$/.test(activePort.split('\n')[0]))break;
+    if(browser.exitCode!==null||browser.signalCode!==null){
+      if(noSandboxRequested&&!sandboxDisabled&&browserErrors.includes('No usable sandbox!')){
+        console.warn('Isolated GitHub fixture QA: sandbox unavailable; applying explicit CI-only fallback.');
+        sandboxDisabled=true;browser=launchBrowser(true);
+      }else throw new Error('Browser exited before readiness: '+browserErrors);
+    }
+    await sleep(100);
+  }
+  if(!activePort)throw new Error(`Browser debugging endpoint unavailable after ${Date.now()-startupStarted}ms (exit=${browser.exitCode}, signal=${browser.signalCode}): `+browserErrors);
   const port=activePort.split('\n')[0];const target=await (await fetch(`http://127.0.0.1:${port}/json/new?about:blank`,{method:'PUT'})).json();
   ws=new WebSocket(target.webSocketDebuggerUrl);await new Promise((resolve,reject)=>{ws.addEventListener('open',resolve,{once:true});ws.addEventListener('error',reject,{once:true});});
   ws.addEventListener('message',event=>{const message=JSON.parse(event.data);const request=requests.get(message.id);if(!request)return;requests.delete(message.id);clearTimeout(request.timer);if(message.error)request.reject(new Error(JSON.stringify(message.error)));else request.resolve(message.result);});
