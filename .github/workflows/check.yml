@@ -1,5 +1,10 @@
 name: Verify
 on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+env:
+  OPENAI_API_KEY: ''
+  UNATTENDED_PAID_APPROVED: 'false'
 jobs:
   offline:
     runs-on: ubuntu-latest
@@ -15,6 +20,7 @@ jobs:
       - run: npm ci
       - run: pip install -r services/pipeline/requirements.txt
       - run: npm run db:generate
+      - run: python tests/scan_secrets.py
       - run: npm test
       - run: npm run test:web
       - run: npm run pipeline
@@ -22,9 +28,23 @@ jobs:
       - run: npm run typecheck
       - run: npm run lint
       - run: npm run build
+      - name: Verify installed Chrome sandbox helper
+        run: |
+          test -x /opt/google/chrome/chrome
+          test -x /opt/google/chrome/chrome-sandbox
       - run: python tests/run_web_smoke.py
         env:
+          DATA_MODE: fixture
           RUN_BROWSER: '1'
+          BROWSER_EXECUTABLE: /opt/google/chrome/chrome
+          CHROME_DEVEL_SANDBOX: /opt/google/chrome/chrome-sandbox
+          CI_CHROMIUM_NO_SANDBOX: '1'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fixture-browser-report
+          path: artifacts/browser
+          if-no-files-found: warn
   postgres:
     runs-on: ubuntu-latest
     services:
@@ -35,7 +55,7 @@ jobs:
           POSTGRES_PASSWORD: digest
           POSTGRES_DB: digest
         ports: ['5432:5432']
-        options: --health-cmd pg_isready --health-interval 5s --health-retries 10
+        options: --health-cmd "pg_isready -U digest -d digest" --health-interval 5s --health-retries 10
     env:
       DATABASE_URL: postgresql://digest:digest@localhost:5432/digest
       TEST_DATABASE_URL: postgresql://digest:digest@localhost:5432/digest
@@ -64,3 +84,4 @@ jobs:
       - run: python tests/run_web_smoke.py
         env:
           DATA_MODE: database
+          WEB_SMOKE_ISOLATED_DB: '1'

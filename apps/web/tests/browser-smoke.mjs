@@ -7,6 +7,10 @@ import {fileURLToPath} from 'node:url';
 // Portable repository QA through an installed Chromium browser. No downloads,
 // credentials, browser extensions, or native desktop automation are involved.
 const base=new URL(process.env.WEB_URL||process.env.WEB_BASE_URL||'http://127.0.0.1:3000');
+const noSandboxRequested=process.env.CI_CHROMIUM_NO_SANDBOX==='1';
+const isolatedGithubCi=process.platform==='linux'&&process.env.GITHUB_ACTIONS==='true'&&process.env.CI==='true';
+assert.ok(!noSandboxRequested||isolatedGithubCi,'Chromium sandbox opt-out is restricted to explicit GitHub Linux CI.');
+assert.ok(base.protocol==='http:'&&['127.0.0.1','localhost','[::1]'].includes(base.hostname),'Browser QA only operates on an isolated loopback fixture server.');
 const output=process.env.BROWSER_ARTIFACTS_DIR?path.resolve(process.env.BROWSER_ARTIFACTS_DIR):path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../../../artifacts/browser');
 const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 await fs.mkdir(output,{recursive:true});
@@ -15,8 +19,14 @@ const candidates=[process.env.CHROME_PATH,process.env.BROWSER_EXECUTABLE,'C:/Pro
 let executable;
 for(const candidate of candidates){try{await fs.access(candidate);executable=candidate;break;}catch{}}
 if(!executable)throw new Error('No installed Chromium executable. Set BROWSER_EXECUTABLE; this test does not download browsers.');
-const browser=spawn(executable,['--headless=new','--remote-debugging-port=0','--remote-debugging-address=127.0.0.1',`--user-data-dir=${profile}`,'--no-first-run','--no-default-browser-check','--disable-background-networking','--disable-extensions','--force-color-profile=srgb','about:blank'],{windowsHide:true,stdio:['ignore','ignore','pipe']});
-let browserErrors='';browser.stderr.on('data',data=>{browserErrors+=data.toString();});
+let browserErrors='',sandboxDisabled=false;
+function launchBrowser(disableSandbox=false){
+  browserErrors='';
+  const process=spawn(executable,['--headless=new',...(disableSandbox?['--no-sandbox']:[]),'--remote-debugging-port=0','--remote-debugging-address=127.0.0.1',`--user-data-dir=${profile}`,'--no-first-run','--no-default-browser-check','--disable-background-networking','--disable-extensions','--force-color-profile=srgb','about:blank'],{windowsHide:true,stdio:['ignore','ignore','pipe']});
+  process.stderr.on('data',data=>{browserErrors+=data.toString();});
+  return process;
+}
+let browser=launchBrowser();
 let ws;let id=0;const requests=new Map();const checks=[];const links=new Set();const screenshots=[];
 const check=(name,condition,detail='')=>{checks.push({name,passed:Boolean(condition),detail});assert.ok(condition,`${name}: ${detail}`);};
 function command(method,params={}){return new Promise((resolve,reject)=>{const requestId=++id;const timer=setTimeout(()=>{requests.delete(requestId);reject(new Error(`CDP timeout: ${method}`));},20000);requests.set(requestId,{resolve,reject,timer});ws.send(JSON.stringify({id:requestId,method,params}));});}
@@ -54,7 +64,7 @@ async function audit(name,locale){
   for(const href of result.hrefs){const url=new URL(href);if(url.origin===base.origin){url.hash='';links.add(url.href);}}
 }
 try{
-  let activePort;for(let n=0;n<150;n++){try{activePort=await fs.readFile(path.join(profile,'DevToolsActivePort'),'utf8');break;}catch{if(browser.exitCode!==null)throw new Error('Browser exited: '+browserErrors);await sleep(100);}}
+  let activePort;for(let n=0;n<150;n++){try{activePort=await fs.readFile(path.join(profile,'DevToolsActivePort'),'utf8');break;}catch{if(browser.exitCode!==null){if(noSandboxRequested&&!sandboxDisabled&&browserErrors.includes('No usable sandbox!')){console.warn('Isolated GitHub fixture QA: sandbox unavailable; applying explicit CI-only fallback.');sandboxDisabled=true;browser=launchBrowser(true);}else throw new Error('Browser exited: '+browserErrors);}await sleep(100);}}
   if(!activePort)throw new Error('Browser debugging endpoint unavailable: '+browserErrors);
   const port=activePort.split('\n')[0];const target=await (await fetch(`http://127.0.0.1:${port}/json/new?about:blank`,{method:'PUT'})).json();
   ws=new WebSocket(target.webSocketDebuggerUrl);await new Promise((resolve,reject)=>{ws.addEventListener('open',resolve,{once:true});ws.addEventListener('error',reject,{once:true});});
@@ -69,9 +79,9 @@ try{
   await command('Input.dispatchKeyEvent',{type:'keyDown',key:'Enter',code:'Enter',windowsVirtualKeyCode:13});await command('Input.dispatchKeyEvent',{type:'keyUp',key:'Enter',code:'Enter',windowsVirtualKeyCode:13});await until("location.hash==='#main'");check('keyboard skip link targets content',await evaluate("location.hash==='#main'&&Boolean(document.getElementById('main'))"));
   for(const route of ['/en/search?q=robot&category=Robotics%20%26%20Physical%20AI&page=1','/en/digest/2026-11-12/sources']){await navigate(route);const before=new URL(route,base);await evaluate("document.querySelector('.language').click()");await until("location.pathname.startsWith('/zh/')&&document.documentElement.lang==='zh'");const after=new URL(await evaluate('location.href'));check('locale switch preserves route '+route,after.pathname===before.pathname.replace(/^\/en/,'/zh'));check('locale switch preserves query '+route,JSON.stringify([...after.searchParams].sort())===JSON.stringify([...before.searchParams].sort()));await evaluate("document.querySelector('.language').click()");await until("location.pathname.startsWith('/en/')&&document.documentElement.lang==='en'");}
   for(const href of links){const response=await fetch(href);check('navigation '+new URL(href).pathname,response.status===200,String(response.status));}
-  await fs.writeFile(path.join(output,'report.json'),JSON.stringify({browser:executable,base:base.href,checks,screenshots},null,2));
+  await fs.writeFile(path.join(output,'report.json'),JSON.stringify({browser:executable,sandboxDisabled,base:base.href,checks,screenshots},null,2));
   console.log(`${checks.length} browser checks passed. Screenshots: ${output}`);
-}catch(error){await fs.writeFile(path.join(output,'report.json'),JSON.stringify({browser:executable,base:base.href,checks,screenshots,error:String(error)},null,2));throw error;}
+}catch(error){await fs.writeFile(path.join(output,'report.json'),JSON.stringify({browser:executable,sandboxDisabled,base:base.href,checks,screenshots,error:String(error)},null,2));throw error;}
 finally{
   if(ws?.readyState===WebSocket.OPEN){try{await command('Browser.close');}catch{}ws.close();}
   if(browser.exitCode===null){await Promise.race([new Promise(resolve=>browser.once('exit',resolve)),sleep(3000)]);if(browser.exitCode===null)browser.kill();}
