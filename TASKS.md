@@ -90,5 +90,10 @@ After M0 shared contracts freeze, spawn frontend, pipeline and editorial simulta
 - [x] Durable stage resume, atomic bilingual publication/event claims and append-only edition/review snapshots.
 - [x] Additive local schema applied; existing 15-table fingerprints preserved with 140 articles/three editions/one revision.
 - [x] Regression checks and secret scan recorded in docs/MVP4_ACCEPTANCE.md.
-- [ ] Explicit authorization to activate unattended paid calls, register an enabled task or push/deploy.
+- [ ] Explicit authorization to activate unattended paid calls, register an enabled task or deploy.
 - Next: review operational setup/activation separately. Existing coverage gaps remain honest omissions.
+
+## MVP-4 release preparation - 2026-11-16
+- [x] Pushed accepted e7524d0 and immutable mvp-4 tag; no history rewrite or activation.
+- [x] Read-only status confirms disabled paid scheduler; deployment/cost audit in docs/DEPLOYMENT_PLAN.md.
+- [ ] CI smoke failures and deployment blockers recorded in the plan; MVP-5 has not started.
