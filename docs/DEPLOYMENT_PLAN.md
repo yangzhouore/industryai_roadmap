@@ -14,7 +14,7 @@
 - CI installation reported six moderate advisories in the full dependency tree; production-only npm audit reports zero.
 - Triage the build/development advisories before rollout; no package versions were changed in this audit.
 - MVP-4.1 repair 0ec9e92 passed both jobs in [run 43900708777](https://github.com/yangzhouore/industryai_roadmap/actions/runs/43900708777).
-- Prepared Ubuntu code is under deploy/linux; native parser/recovery checks are now part of the CI matrix.
+- Production preparation 701009b passed both jobs with native parser/recovery checks in [run 44049852883](https://github.com/yangzhouore/industryai_roadmap/actions/runs/44049852883).
 - See [MVP-4.1 verification](MVP41_ACCEPTANCE.md), [Linux setup](LINUX_DEPLOYMENT.md) and [source rights audit](SOURCE_REUSE_AUDIT.md).
 
 ## Recommended low-cost architecture

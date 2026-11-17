@@ -12,15 +12,15 @@ Earlier M0-M5, MVP-2/3/4 records are preserved in [milestone history](docs/MILES
 ## MVP-4.1 - CI repair and production preparation (in progress)
 - [x] Inspected failed run 43854684646 and both job logs; retained all browser assertions.
 - [x] Dedicated CI repair 481951f pushed; isolated PostgreSQL job passed remotely.
-- [ ] Final remote offline browser job and complete CI matrix pass.
+- [x] Final remote offline browser job and complete CI matrix pass (701009b).
 - [x] Local repair checks: 170 backend, nine frontend, 24 fixture HTTP +105 browser, 54 isolated PostgreSQL HTTP checks.
 - [x] Local lint, typecheck, build and staged secret/path scan passed.
 - [x] Reproducible Ubuntu services, private PostgreSQL, Caddy, timer, health and persistent logs accepted.
 - [x] Real read-only 140-article encrypted backup restored into a new isolated target; 19 table hashes matched.
-- [x] Recovery hardening/off-host transport configuration tested locally; isolated restore CI awaits remote run.
+- [x] Recovery hardening/off-host transport configuration and isolated restore passed locally and in Ubuntu CI.
 - [x] Evidence-based source/attribution audit recorded; no blanket public reuse clearance claimed.
 - [x] Independent security audit, final data-preservation fingerprints, secret scan and Markdown checks pass.
-- [ ] Final verified production-preparation commit pushed and actual GitHub jobs pass.
+- [x] Production-preparation 701009b pushed; both jobs passed in [run 44049852883](https://github.com/yangzhouore/industryai_roadmap/actions/runs/44049852883).
 
 ## Boundaries and remaining activation gates
 - Never delete, reset, replace or overwrite the preserved application data.

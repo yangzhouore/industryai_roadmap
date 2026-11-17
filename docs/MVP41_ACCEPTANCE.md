@@ -8,7 +8,7 @@
 - Browser tests retain all 105 assertions; fixture HTTP checks and isolated real-data visibility checks are separate.
 - CI receives no real OpenAI key and does not invoke the live editorial or historical backfill runner.
 - Final infrastructure commit adds native Ubuntu/systemd/Caddy validation and encrypted PostgreSQL recovery to the same workflow.
-- See current [GitHub Actions results](https://github.com/yangzhouore/industryai_roadmap/actions/workflows/check.yml) for that commit.
+- Production preparation 701009b passed both jobs in [run 44049852883](https://github.com/yangzhouore/industryai_roadmap/actions/runs/44049852883).
 
 ## Local verification completed
 - Backend: 170 tests passed with isolated PostgreSQL integration enabled (102 repository tests +68 pipeline tests).
@@ -17,7 +17,7 @@
 - Production configuration: 10 guard tests and four shell syntax checks passed.
 - Recovery: 15 tests passed, including actual pg_dump/age/pg_restore and protected temporary password files.
 - Staged secret/path scan: 189 files, zero findings; every project Markdown file is below 100 lines.
-- Standalone Linux parsers require Ubuntu and run in CI, not through emulated Windows claims.
+- Native Ubuntu systemd/calendar/shell/Caddy parsers and actual encrypted PostgreSQL recovery passed remotely.
 
 ## Actual data preservation and recovery
 - Captured fingerprints of all 19 current public database tables before this work; no source records were changed.
