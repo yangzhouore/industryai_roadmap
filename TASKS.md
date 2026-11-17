@@ -35,5 +35,5 @@ Earlier M0-M5, MVP-2/3/4 records are preserved in [milestone history](docs/MILES
 - [x] Enforce bilingual editorial and exact source-link review across pages, feeds, search and SEO.
 - [x] Independent content/security/QA reviews, negative exposure tests and positive fixture/cleared projection coverage.
 - [x] Preserve all 19 source table hashes, 140 articles, three bilingual editions and immutable revisions.
-- [ ] Full local regression, secret/Markdown checks, dedicated commit push and actual remote CI pass.
+- [x] Full regression/secret/Markdown checks; c2d96fb pushed and both jobs passed in [run 44053537080](https://github.com/yangzhouore/industryai_roadmap/actions/runs/44053537080).
 - [x] Record launch blockers and concise operator checklist; no deployment or paid activation.

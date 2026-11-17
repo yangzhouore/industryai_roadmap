@@ -23,7 +23,9 @@
 - Tests include a cleared artificial positive projection, exact-link denial, stale hashes, malformed reviews and nested-copy isolation.
 - Bilingual smoke caught new Chinese label corruption; corrected before final checks, with the assertion retained.
 - RSS checks assert no-store. Denial tests require empty feeds/results/categories and absent withheld links, not merely HTTP success.
-- Final staged secret scan/Markdown checks and actual remote CI are recorded after commit verification.
+- Staged secret scan: 194 files, zero findings; all 36 Markdown files are below 100 lines.
+- Dedicated implementation c2d96fb passed both jobs in [GitHub run 44053537080](https://github.com/yangzhouore/industryai_roadmap/actions/runs/44053537080).
+- Remote logs confirm 105 browser +124 database HTML/RSC checks and native Linux/encrypted recovery acceptance.
 
 ## Preservation and independent reviews
 - Read-only baseline and final comparison matched all 19 public-table hashes, 140 real articles,
