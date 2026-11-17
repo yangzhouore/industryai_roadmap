@@ -1,6 +1,6 @@
 # Industrial AI Digest
 
-Original bilingual industrial intelligence site. Normal pages show only real validated publications.
+Original bilingual industrial intelligence site. Normal pages show only real validated publications with explicit public-display clearance.
 
 ## Current MVP-4 state
 
@@ -9,6 +9,8 @@ Original bilingual industrial intelligence site. Normal pages show only real val
 - Six reviewed publisher feeds are enabled for opt-in local metadata collection.
 - Classification uses `gpt-6-luna`; generation and independent review use `gpt-6.1-terra`.
 - Public hosting, email delivery and unattended paid publication remain inactive.
+- MVP-4.2 preserves all stored editions but withholds them publicly until bilingual editorial/link review is recorded.
+- Retained source excerpts stay private; see [public display controls](docs/PUBLIC_LAUNCH_CHECKLIST.md).
 - See [MVP-3 report](docs/MVP3_BACKFILL_REPORT.md) for coverage limits and historical execution evidence.
 - MVP-4 adds Berlin scheduling, transactional monthly budgets, resumable editorial stages and operational status.
 - Automated paid execution remains disabled. See [daily operations](docs/MVP4_OPERATIONS.md).

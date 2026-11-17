@@ -47,3 +47,11 @@ MIT, NVIDIA, AWS, Microsoft and Schneider terms were re-read November 17; Siemen
 Publisher terms and item-specific notices can change; section references are recorded in the machine-readable review.
 This audit does not claim paid/public hosting approval from any publisher or resolve statutory quotation exceptions.
 Machine-readable decisions are in config/source_reuse_review.json; public_display_approved is false for every current source.
+
+## MVP-4.2 independent-summary and link questions
+[Public content audit](PUBLIC_CONTENT_AUDIT.md) maps every public field and private evidence boundary.
+Each publisher now has a separate pending original-summary/link question in the evidence registry.
+All public_display_approved flags and review_complete remain false; no copied-text rights are inferred.
+The collection registry describes local research policy, not a verified blanket private-copying license.
+Schneider blog/link applicability and Siemens applicable terms remain unresolved even for a links-only design.
+A separate exact-content editorial/public-source policy must govern public output; this registry grants no approval.

@@ -17,6 +17,10 @@ An existing instance does not require migration, seed or historical backfill to 
 Current MVP-3 data includes 140 real articles and bilingual editions for November 6, 9 and 13, 2026.
 The old November 13 edition and review remain in database revision history.
 Public readers require published state, validation, intact sources and no synthetic issue, story or source content.
+Real editions also require trusted `config/public-display.json` human editorial and exact source-link clearances.
+Clearances bind the full stored Issue hash; zero approvals are configured, so real editions remain private.
+The public projection copies only known fields and never sends retained source excerpts, evidence or assets.
+Changing any stored content invalidates its approval. No environment flag bypasses the review policy.
 Empty databases show an honest no-published-news state. Drafts are never substituted with demo stories.
 Viewing published pages does not call OpenAI; API credentials belong to the server-side editorial pipeline.
 
