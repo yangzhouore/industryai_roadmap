@@ -24,6 +24,17 @@ class WebSmokeSafetyTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 test_database_url('postgresql://production.invalid/digest', True)
 
+    def test_connection_parameters_cannot_redirect_disposable_target(self):
+        with patch.dict('os.environ', {'CI': 'true', 'GITHUB_ACTIONS': 'true'}):
+            for parameter in ('host=production.invalid', 'hostaddr=192.0.2.1',
+                              'dbname=production', 'user=production',
+                              'password=override', 'service=production',
+                              'options=-csearch_path=public', 'schema=public'):
+                with self.subTest(parameter=parameter), self.assertRaises(ValueError):
+                    test_database_url('postgresql://localhost/digest_test?'+parameter, True)
+            with self.assertRaises(ValueError):
+                test_database_url('postgresql://localhost/digest_test#override', True)
+
     def test_sandbox_opt_out_guard_cannot_be_activated_on_local_windows(self):
         import os
         import subprocess

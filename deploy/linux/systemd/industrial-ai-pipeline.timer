@@ -1,0 +1,13 @@
+[Unit]
+Description=Industrial AI 07:00 Berlin publication slot and recovery check
+
+[Timer]
+OnCalendar=*-*-* 07:00:00 Europe/Berlin
+OnCalendar=*-*-* 09:15:00 Europe/Berlin
+Persistent=true
+AccuracySec=1s
+RandomizedDelaySec=0
+Unit=industrial-ai-pipeline.service
+
+[Install]
+WantedBy=timers.target

@@ -5,7 +5,7 @@ services:
       POSTGRES_USER: digest
       POSTGRES_PASSWORD: digest
       POSTGRES_DB: digest
-    ports: ["5432:5432"]
+    ports: ["127.0.0.1:5432:5432"]
     volumes: ["digest_data:/var/lib/postgresql/data"]
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U digest"]

@@ -8,6 +8,7 @@ env:
 jobs:
   offline:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
         with:
@@ -21,6 +22,10 @@ jobs:
           python-version: '3.12'
       - run: npm ci
       - run: pip install -r services/pipeline/requirements.txt
+      - name: Verify production safety defaults
+        run: |
+          python -m unittest discover -s deploy/linux -p 'test_*.py' -v
+          python -m unittest packages.db.test_recovery -v
       - run: npm run db:generate
       - run: python tests/scan_secrets.py
       - run: npm test
@@ -49,14 +54,15 @@ jobs:
           if-no-files-found: warn
   postgres:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     services:
       postgres:
-        image: postgres:17-alpine
+        image: postgres:18-alpine
         env:
           POSTGRES_USER: digest
           POSTGRES_PASSWORD: digest
           POSTGRES_DB: digest
-        ports: ['5432:5432']
+        ports: ['127.0.0.1:5432:5432']
         options: --health-cmd "pg_isready -U digest -d digest" --health-interval 5s --health-retries 10
     env:
       DATABASE_URL: postgresql://digest:digest@localhost:5432/digest
@@ -73,6 +79,30 @@ jobs:
           python-version: '3.12'
       - run: npm ci
       - run: pip install -r services/pipeline/requirements.txt
+      - name: Extract verification tools without installing services
+        run: |
+          sudo apt-get update
+          if ! apt-cache show postgresql-client-18 >/dev/null 2>&1; then
+            curl --fail --silent --show-error https://www.postgresql.org/media/keys/ACCC4CF8.asc -o /tmp/industrial-ai-pgdg.asc
+            sudo install -m 0644 /tmp/industrial-ai-pgdg.asc /usr/share/keyrings/industrial-ai-pgdg.asc
+            . /etc/os-release
+            echo "deb [signed-by=/usr/share/keyrings/industrial-ai-pgdg.asc] https://apt.postgresql.org/pub/repos/apt ${VERSION_CODENAME}-pgdg main" | sudo tee /etc/apt/sources.list.d/industrial-ai-pgdg.list
+            sudo apt-get update
+          fi
+          mkdir -p artifacts/ci-tools
+          cd artifacts/ci-tools
+          apt-get download caddy age postgresql-client-18 libpq5
+          for archive in ./*.deb; do dpkg-deb --extract "$archive" extracted; done
+          echo "$PWD/extracted/usr/bin" >> "$GITHUB_PATH"
+          echo "$PWD/extracted/usr/lib/postgresql/18/bin" >> "$GITHUB_PATH"
+          echo "LD_LIBRARY_PATH=$PWD/extracted/usr/lib/x86_64-linux-gnu:${LD_LIBRARY_PATH:-}" >> "$GITHUB_ENV"
+      - name: Validate Ubuntu service, timer, shell and TLS configuration
+        run: python deploy/linux/validate_linux.py
+      - name: Test encrypted backup and isolated restoration
+        run: python -m unittest packages.db.test_recovery -v
+        env:
+          RUN_RECOVERY_INTEGRATION: '1'
+          TEST_RECOVERY_ADMIN_URL: postgresql://digest:digest@localhost:5432/postgres
       - run: npm run db:generate
       - run: npm run db:migrate
       # Include daily publication/resume and real concurrent monthly-budget integration.

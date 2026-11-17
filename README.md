@@ -12,6 +12,8 @@ Original bilingual industrial intelligence site. Normal pages show only real val
 - See [MVP-3 report](docs/MVP3_BACKFILL_REPORT.md) for coverage limits and historical execution evidence.
 - MVP-4 adds Berlin scheduling, transactional monthly budgets, resumable editorial stages and operational status.
 - Automated paid execution remains disabled. See [daily operations](docs/MVP4_OPERATIONS.md).
+- MVP-4.1 supplies [Ubuntu configuration](docs/LINUX_DEPLOYMENT.md), [encrypted recovery](packages/db/BACKUP_RESTORE.md)
+  and [source reuse evidence](docs/SOURCE_REUSE_AUDIT.md); no VPS deployment or paid activation is implied.
 
 ## Local website
 

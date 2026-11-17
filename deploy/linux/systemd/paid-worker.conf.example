@@ -1,0 +1,9 @@
+# Never installed automatically. Requires separate explicit paid-publication approval.
+[Unit]
+ConditionPathExists=/etc/industrial-ai/publication-approved
+
+[Service]
+ExecStart=
+ExecStart=/srv/industrial-ai/venv/bin/python -m services.pipeline.daily tick --allow-paid --resume --report /var/lib/industrial-ai/artifacts/daily-status.json
+# Set process UNATTENDED_PAID_APPROVED=true in the protected worker environment,
+# and config/automation.json unattendedPaidApproved=true only after authorization.

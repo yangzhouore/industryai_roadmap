@@ -15,8 +15,13 @@ PATTERNS = (
 
 def forbidden_path(name):
     path = PurePosixPath(name)
+    filename = path.name.casefold()
     return (any(part in {'artifacts', 'data', 'node_modules', '.next', '__pycache__'} for part in path.parts)
-            or (path.name.startswith('.env') and not path.name.endswith('.example'))
+            or ((path.name.startswith('.env') or path.name.endswith('.env') or '.env.' in path.name)
+                and not path.name.endswith('.example'))
+            or filename in {'rclone.conf', 'pgpass', '.pgpass', '.pg_service.conf'}
+            or (filename.endswith('.json') and filename.startswith(('credentials', 'service-account')))
+            or path.suffix.lower() in {'.age', '.agekey'}
             or path.suffix.lower() in {'.pem', '.key', '.p12', '.pfx', '.sqlite', '.db', '.dump', '.backup'})
 
 

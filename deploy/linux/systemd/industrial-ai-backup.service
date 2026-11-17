@@ -1,0 +1,24 @@
+[Unit]
+Description=Industrial AI encrypted off-host database backup
+After=network-online.target postgresql@18-industrial_ai.service
+Wants=network-online.target
+Requires=postgresql@18-industrial_ai.service
+
+[Service]
+Type=oneshot
+User=industrial-backup
+Group=industrial-ai
+WorkingDirectory=/srv/industrial-ai/current
+EnvironmentFile=/etc/industrial-ai/backup.env
+ExecStartPre=/srv/industrial-ai/venv/bin/python deploy/linux/preflight.py backup
+ExecStart=/srv/industrial-ai/venv/bin/python deploy/linux/backup-run.py
+TimeoutStartSec=30min
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/industrial-ai/backups
+UMask=0077
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=industrial-ai-backup

@@ -1,0 +1,12 @@
+[Unit]
+Description=Industrial AI daily encrypted off-host backup
+
+[Timer]
+OnCalendar=*-*-* 03:30:00 Europe/Berlin
+Persistent=true
+AccuracySec=1min
+RandomizedDelaySec=0
+Unit=industrial-ai-backup.service
+
+[Install]
+WantedBy=timers.target

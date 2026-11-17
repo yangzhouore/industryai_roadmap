@@ -22,6 +22,10 @@ HIDDEN_DATES = ('2026-11-10', '2026-11-11', '2026-11-12', '2024-04-16', '2024-04
 
 def test_database_url(value, isolated=False):
     parts = urlsplit(value)
+    # libpq query parameters can override the parsed authority/database. The
+    # disposable target must mean exactly what the URL guard inspected.
+    if parts.query or parts.fragment:
+        raise ValueError('Database smoke setup rejects query/fragment connection overrides')
     local = parts.hostname in {'localhost', '127.0.0.1', '::1'}
     named_test = parts.path.rsplit('/', 1)[-1].endswith('_test')
     github_disposable = os.getenv('CI') == 'true' and os.getenv('GITHUB_ACTIONS') == 'true' and local

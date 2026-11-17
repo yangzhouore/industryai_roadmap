@@ -1,0 +1,58 @@
+{
+  "checked_at": "2026-11-16",
+  "review_complete": false,
+  "scope": "Public display of existing excerpts and translations; not local feed availability",
+  "sources": [
+    {
+      "id": "mit-robotics",
+      "status": "conditional_story_republication_evidence",
+      "public_display_approved": false,
+      "evidence_url": "https://news.mit.edu/terms-of-use",
+      "remaining": "Full attribution conditions and applicability to adapted/translated excerpts"
+    },
+    {
+      "id": "nvidia-robotics",
+      "status": "noncommercial_only_further_review",
+      "public_display_approved": false,
+      "evidence_url": "https://www.nvidia.com/en-us/about-nvidia/rss/",
+      "remaining": "Proposed public use, commercial status and translation permission"
+    },
+    {
+      "id": "aws-industries",
+      "status": "further_permission_required",
+      "public_display_approved": false,
+      "evidence_url": "https://aws.amazon.com/terms/",
+      "remaining": "Blog-specific reuse/translation license or written permission"
+    },
+    {
+      "id": "microsoft-cloud",
+      "status": "further_permission_required",
+      "public_display_approved": false,
+      "evidence_url": "https://www.microsoft.com/en-us/legal/terms-of-use",
+      "remaining": "Blog/article-specific display and translation grant"
+    },
+    {
+      "id": "schneider-electric",
+      "status": "further_permission_required",
+      "public_display_approved": false,
+      "evidence_url": "https://www.se.com/ww/en/about-us/legal/terms-of-use/",
+      "remaining": "Written reuse permission and clarification of blog/link restrictions"
+    },
+    {
+      "id": "siemens-simcenter",
+      "status": "applicable_terms_unresolved",
+      "public_display_approved": false,
+      "evidence_url": "https://www.siemens.com/global/en/general/terms-of-use.html",
+      "remaining": "Terms fetch timed out; obtain applicable license/permission"
+    }
+  ],
+  "rechecked_at": "2026-11-17",
+  "evidence_sections": {
+    "mit-robotics": "Republication Policy for Web and Print; story and image grants are distinct",
+    "nvidia-robotics": "Additional Information: RSS noncommercial restriction",
+    "aws-industries": "COPYRIGHT and LICENSE AND SITE ACCESS; no blog-specific grant verified",
+    "microsoft-cloud": "Personal and Non-Commercial Use Limitation",
+    "schneider-electric": "Trademark and copyright information; Hyperlinks",
+    "siemens-simcenter": "Global terms fetch timed out again; applicability unresolved"
+  }
+}

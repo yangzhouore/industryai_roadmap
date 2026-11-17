@@ -1,0 +1,10 @@
+[Unit]
+Description=Industrial AI health monitoring every five minutes
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=5min
+Unit=industrial-ai-health.service
+
+[Install]
+WantedBy=timers.target

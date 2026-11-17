@@ -4,7 +4,7 @@
 - Verified a clean checkout at e7524d058222fda369cd0ab4d2d4852d7ef67b38 before release.
 - Pushed main fast-forward and annotated mvp-4; the tag targets that exact accepted commit.
 - No history rewritten, deployment performed, credential changed or paid scheduler activated.
-- [Branch/tag CI runs](https://github.com/yangzhouore/industryai_roadmap/actions?query=workflow%3AVerify) both failed smoke checks.
+- Initial [branch/tag CI runs](https://github.com/yangzhouore/industryai_roadmap/actions?query=workflow%3AVerify) failed smoke checks; MVP-4.1 repair is recorded below.
 - [Run 43852949645](https://github.com/yangzhouore/industryai_roadmap/actions/runs/43852949645) and
   [run 43852949664](https://github.com/yangzhouore/industryai_roadmap/actions/runs/43852949664) passed tests, migrations, lint/typecheck and builds.
 - Offline failure: Chromium cannot start its sandbox on the Ubuntu runner; HTTP route checks passed first.
@@ -13,6 +13,9 @@
 - Keep mvp-4 immutable; any CI repair needs a new follow-up commit and verified checks before deployment.
 - CI installation reported six moderate advisories in the full dependency tree; production-only npm audit reports zero.
 - Triage the build/development advisories before rollout; no package versions were changed in this audit.
+- MVP-4.1 repair 0ec9e92 passed both jobs in [run 43900708777](https://github.com/yangzhouore/industryai_roadmap/actions/runs/43900708777).
+- Prepared Ubuntu code is under deploy/linux; native parser/recovery checks are now part of the CI matrix.
+- See [MVP-4.1 verification](MVP41_ACCEPTANCE.md), [Linux setup](LINUX_DEPLOYMENT.md) and [source rights audit](SOURCE_REUSE_AUDIT.md).
 
 ## Recommended low-cost architecture
 - One always-on EU/UK Linux VPS, initially 4 vCPU/8 GB RAM/75 GB disk, using OVHcloud VPS-2 as a cost reference.
@@ -29,7 +32,7 @@
 - Serve apps/web with next start behind TLS; current start binds 127.0.0.1, suitable for the same-host proxy.
 - A PaaS/container instead needs 0.0.0.0 and its PORT; static-only hosting cannot serve database-backed routes.
 - Python 3.11+ venv, requirements.txt, timezone data and tested psycopg/libpq; lock/test exact versions before rollout.
-- systemd services, timer units, production proxy/container configuration and health probes are still to be prepared/tested.
+- Host-native systemd services/timers, Caddy, private PostgreSQL, health and backup configuration are implemented in deploy/linux.
 - Existing compose.yaml is development-only: demo password and published DB port must not be used in production.
 - Persist PostgreSQL data including api_requests, automation_cache/runs/events, evidence and immutable edition_revisions.
 - Persist private artifacts/reports outside replaceable code releases; securely carry artifacts/mvp3/budget.json for November.
@@ -79,7 +82,7 @@ budget roughly USD 15-25 for web, private PostgreSQL and worker/storage, subject
 - Read-only status succeeded with the documented portable libpq fallback; unattendedPaidApproved=false.
 - November 14/15/16 are reported as missed slots while activation remains disabled; no catch-up/paid run was executed.
 - Existing 140 articles, three bilingual digests and revision history must remain intact through any future migration.
-- Blockers: red remote smoke checks, service/proxy/timer packaging, target/backup/restore validation and secret provisioning.
+- Blockers: target-host validation, approved off-host credentials/custody, secret provisioning and publisher reuse clearance.
 - All enabled feeds specify local_noncommercial and redistribution_permitted=false: public source/attribution review is pending.
 - No live paid end-to-end hosted verification, public deployment or unattended activation is authorized by this plan.
 - MVP-5 has not started. Release is recorded; public deployment readiness remains blocked by the items above.
