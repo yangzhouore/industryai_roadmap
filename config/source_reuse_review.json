@@ -1,49 +1,79 @@
 {
   "checked_at": "2026-11-16",
   "review_complete": false,
-  "scope": "Public display of existing excerpts and translations; not local feed availability",
+  "scope": "Evidence-only review of copied excerpts/translations and pending independent-summary/link questions; no publication approvals",
   "sources": [
     {
       "id": "mit-robotics",
       "status": "conditional_story_republication_evidence",
       "public_display_approved": false,
       "evidence_url": "https://news.mit.edu/terms-of-use",
-      "remaining": "Full attribution conditions and applicability to adapted/translated excerpts"
+      "remaining": "Full attribution conditions and applicability to adapted/translated excerpts",
+      "original_summary_link_review": {
+        "status": "pending",
+        "checked_at": "2026-11-17",
+        "question": "Confirm independent bilingual summaries/link attribution scope separately from conditional story republication and from images; no translated excerpt grant inferred."
+      }
     },
     {
       "id": "nvidia-robotics",
       "status": "noncommercial_only_further_review",
       "public_display_approved": false,
       "evidence_url": "https://www.nvidia.com/en-us/about-nvidia/rss/",
-      "remaining": "Proposed public use, commercial status and translation permission"
+      "remaining": "Proposed public use, commercial status and translation permission",
+      "original_summary_link_review": {
+        "status": "pending",
+        "checked_at": "2026-11-17",
+        "question": "Confirm intended public information use remains within noncommercial RSS terms and assess independently worded bilingual summaries and outbound links."
+      }
     },
     {
       "id": "aws-industries",
       "status": "further_permission_required",
       "public_display_approved": false,
       "evidence_url": "https://aws.amazon.com/terms/",
-      "remaining": "Blog-specific reuse/translation license or written permission"
+      "remaining": "Blog-specific reuse/translation license or written permission",
+      "original_summary_link_review": {
+        "status": "pending",
+        "checked_at": "2026-11-17",
+        "question": "Determine applicable Industries-blog/article terms and legal basis for independent fact summaries and links; documentation license is not a blog license."
+      }
     },
     {
       "id": "microsoft-cloud",
       "status": "further_permission_required",
       "public_display_approved": false,
       "evidence_url": "https://www.microsoft.com/en-us/legal/terms-of-use",
-      "remaining": "Blog/article-specific display and translation grant"
+      "remaining": "Blog/article-specific display and translation grant",
+      "original_summary_link_review": {
+        "status": "pending",
+        "checked_at": "2026-11-17",
+        "question": "Determine Cloud-blog/article-specific terms for independent bilingual fact summaries and links; document permission does not establish adapted blog clearance."
+      }
     },
     {
       "id": "schneider-electric",
       "status": "further_permission_required",
       "public_display_approved": false,
       "evidence_url": "https://www.se.com/ww/en/about-us/legal/terms-of-use/",
-      "remaining": "Written reuse permission and clarification of blog/link restrictions"
+      "remaining": "Written reuse permission and clarification of blog/link restrictions",
+      "original_summary_link_review": {
+        "status": "pending",
+        "checked_at": "2026-11-17",
+        "question": "Clarify whether se.com hyperlink restriction applies to blog.se.com source links and obtain scoped permission or reviewed legal basis for proposed summaries/links."
+      }
     },
     {
       "id": "siemens-simcenter",
       "status": "applicable_terms_unresolved",
       "public_display_approved": false,
       "evidence_url": "https://www.siemens.com/global/en/general/terms-of-use.html",
-      "remaining": "Terms fetch timed out; obtain applicable license/permission"
+      "remaining": "Terms fetch timed out; obtain applicable license/permission",
+      "original_summary_link_review": {
+        "status": "pending",
+        "checked_at": "2026-11-17",
+        "question": "Obtain applicable Simcenter/software-blog terms after global terms fetch timeout; assess factual summaries and source links without assuming republication rights."
+      }
     }
   ],
   "rechecked_at": "2026-11-17",

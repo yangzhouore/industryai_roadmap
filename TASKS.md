@@ -9,7 +9,7 @@ Earlier M0-M5, MVP-2/3/4 records are preserved in [milestone history](docs/MILES
 - [x] Existing local data: 140 real articles, November 6/9/13 bilingual editions, immutable revision history.
 - [x] Unattended paid execution remains disabled; no hosting deployment or VPS purchase.
 
-## MVP-4.1 - CI repair and production preparation (in progress)
+## MVP-4.1 - CI repair and production preparation (verified)
 - [x] Inspected failed run 43854684646 and both job logs; retained all browser assertions.
 - [x] Dedicated CI repair 481951f pushed; isolated PostgreSQL job passed remotely.
 - [x] Final remote offline browser job and complete CI matrix pass (701009b).
@@ -27,4 +27,13 @@ Earlier M0-M5, MVP-2/3/4 records are preserved in [milestone history](docs/MILES
 - Database writes for verification are confined to explicitly isolated targets/schemas.
 - No paid OpenAI calls, unattended activation, production deployment, VPS purchase or credential replacement.
 - Public source/translation rights and actual production/off-host credentials require further approval/evidence.
-- MVP-5 has not started. Continue MVP-4.1 verification until complete or a real blocker is reported.
+- MVP-5 has not started. Public launch remains gated by evidence and separate authorization.
+
+## MVP-4.2 - Public content safety and launch readiness
+- [x] Audit all third-party fields, source-specific permissions and assets; retain outstanding questions.
+- [x] Separate retained evidence from an allowlisted public projection; default-deny real editions without exact review.
+- [x] Enforce bilingual editorial and exact source-link review across pages, feeds, search and SEO.
+- [x] Independent content/security/QA reviews, negative exposure tests and positive fixture/cleared projection coverage.
+- [x] Preserve all 19 source table hashes, 140 articles, three bilingual editions and immutable revisions.
+- [x] Full regression/secret/Markdown checks; c2d96fb pushed and both jobs passed in [run 44053537080](https://github.com/yangzhouore/industryai_roadmap/actions/runs/44053537080).
+- [x] Record launch blockers and concise operator checklist; no deployment or paid activation.

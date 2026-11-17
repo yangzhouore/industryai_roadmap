@@ -1,6 +1,6 @@
 # Frozen implementation contract
 
-- Shared public JSON types: `packages/shared/index.ts`; fixture: `packages/shared/fixtures/issues.json` (array of Issue).
+- Stored editorial JSON types: `packages/shared/index.ts`; fixture: `packages/shared/fixtures/issues.json` (array of Issue).
 - Issue has id, slug, date (YYYY-MM-DD), state, validated, synthetic, title/intro text, sources and stories.
 - Text fields are `{en: string, zh: string}`. Introduction key is `introduction`.
 - Source: id, name, url, publishedAt (ISO UTC), eventAt (nullable ISO), timezone, synthetic, excerpt (Text).
@@ -14,3 +14,15 @@
 - Editorial API: `validate_issue(issue: dict) -> list[str]`, `score_story(story: dict) -> dict`, `prepare_issue(issue: dict) -> dict`.
 - Pipeline CLI owns persistence/state changes; web reads fixture when DATA_MODE=fixture, Prisma otherwise.
 - Ownership: frontend apps/web; collection collectors/extraction/dedup; editorial scoring/editorial/verification/translation. Lead handles integration, database and tests.
+
+## MVP-4.2 public display boundary
+- Stored Issue/Source retain evidence unchanged; PublicIssue/PublicSource omit source excerpts.
+- All page/feed/search/SEO readers use only the explicit server public projection.
+- Real editions require trusted config/public-display.json clearance matching the canonical SHA-256 of the full stored Issue.
+- Policy version 1 / public-web: edition editorialApproved, reviewer/date/HTTPS evidence; every source link needs exact ID/URL/publisher,
+  approved, basis (permission or legal-review), HTTPS evidence URL, reviewer and review date.
+- Missing/malformed policy, duplicate reviews, stale hashes or incomplete source clearances withhold the whole edition.
+- Both language prose and titles/introduction/analysis must be independently written and reviewed; model verification is insufficient.
+- Public projections allowlist known fields, never spread stored objects, and always omit excerpts, evidence payloads and assets.
+- Explicit fixture mode remains labeled; it also uses sanitized projections. No runtime preview bypass for uncleared real editions.
+- Default policy has zero approvals; changing approvals requires documented human review, never ingestion or paid automation.

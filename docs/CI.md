@@ -10,10 +10,12 @@
 - The temporary projection includes a source-grounded NIST research snapshot,
   with the original 2024 source date and mocked editorial review. It is QA data,
   not a new publisher announcement, and is removed with its owned test schema.
-- Checks require the public validated bilingual projection to appear in routes,
-  archive, search, RSS and sitemap, while synthetic, draft, validated-only and
-  malformed rows remain hidden. A 404 for a synthetic date is required, not ignored.
-- The normal public reader is unchanged. Fixture and database assertions are separate.
+- MVP-4.2 checks require uncleared real, synthetic, draft, validated-only and malformed rows
+  to remain absent from every route/feed/SEO surface. The grounded QA edition is not legally cleared.
+- Positive cleared-real projection tests use isolated in-memory policies; fixture pages/browser
+  keep positive rendering coverage. No runtime policy override or production approval is installed.
+- The public reader now applies the trusted default-deny content clearance after structural validation.
+- Both modes strip publisher excerpts and private evidence before rendering; fixture and database checks stay separate.
 
 ## Chromium on hosted Ubuntu
 - Stable Chrome and its installed setuid sandbox helper are selected explicitly.

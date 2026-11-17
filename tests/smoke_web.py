@@ -22,6 +22,7 @@ for locale in ('en', 'zh'):
                 assert ('No matching stories.' if locale == 'en' else '\u6ca1\u6709\u5339\u914d\u7684\u6545\u4e8b\u3002') in text
             checked += 1
     with urlopen(base + '/' + locale + '/rss.xml', timeout=30) as response:
+        assert 'no-store' in response.headers.get('Cache-Control', '')
         root = ET.fromstring(response.read())
         assert len(root.findall('./channel/item')) == 3
         checked += 1
