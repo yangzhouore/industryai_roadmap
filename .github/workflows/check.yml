@@ -46,6 +46,18 @@ jobs:
           BROWSER_EXECUTABLE: /opt/google/chrome/chrome
           CHROME_DEVEL_SANDBOX: /opt/google/chrome/chrome-sandbox
           CI_CHROMIUM_NO_SANDBOX: '1'
+      - name: Browse artificial private review reports and gate-only previews
+        run: python tests/run_review_smoke.py
+        env:
+          BROWSER_EXECUTABLE: /opt/google/chrome/chrome
+          CHROME_DEVEL_SANDBOX: /opt/google/chrome/chrome-sandbox
+          CI_CHROMIUM_NO_SANDBOX: '1'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: artificial-review-browser-report
+          path: artifacts/review-browser
+          if-no-files-found: warn
       - uses: actions/upload-artifact@v4
         if: always()
         with:

@@ -14,6 +14,8 @@
   to remain absent from every route/feed/SEO surface. The grounded QA edition is not legally cleared.
 - Positive cleared-real projection tests use isolated in-memory policies; fixture pages/browser
   keep positive rendering coverage. No runtime policy override or production approval is installed.
+- MVP-4.3 adds offline local-workbench auth/audit/revision/evidence tests and a 17-case Chromium
+  report/preview test using artificial temporary records only. No real reviewer or clearance is created.
 - The public reader now applies the trusted default-deny content clearance after structural validation.
 - Both modes strip publisher excerpts and private evidence before rendering; fixture and database checks stay separate.
 

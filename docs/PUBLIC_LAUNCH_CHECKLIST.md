@@ -5,6 +5,9 @@
 - All 140 articles, three bilingual editions and revision history remain private/preserved, not deleted.
 - An empty public archive and 404 for uncleared editions are expected until the review below is complete.
 
+Use the [local review CLI](EDITORIAL_REVIEW.md) for private candidates, authenticated decisions and exact export.
+Exported bundles contain private evidence: never serve them or install policy automatically.
+
 ## Content review before approval
 1. Work from a protected read-only snapshot; never edit stored source evidence to make a public test pass.
 2. Review every EN/ZH issue title/introduction and story title/summary/why/limitation, including company/category/IDs.

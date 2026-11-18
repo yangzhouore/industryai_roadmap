@@ -37,3 +37,12 @@ Earlier M0-M5, MVP-2/3/4 records are preserved in [milestone history](docs/MILES
 - [x] Preserve all 19 source table hashes, 140 articles, three bilingual editions and immutable revisions.
 - [x] Full regression/secret/Markdown checks; c2d96fb pushed and both jobs passed in [run 44053537080](https://github.com/yangzhouore/industryai_roadmap/actions/runs/44053537080).
 - [x] Record launch blockers and concise operator checklist; no deployment or paid activation.
+
+## MVP-4.3 - Local editorial review and release workflow
+- [ ] Read-only real-edition import/inspection; private bilingual citation and heuristic-risk reports.
+- [ ] Append-only candidate revisions/decision audit, protected local credentials and authenticated independent human approval.
+- [ ] Exact shared-gate hashes, documented story/link decisions, evidence binding, revocation and explicit clearance export.
+- [ ] Withheld/cleared local EN/ZH digest/Sources/RSS/archive previews; public app remains fail-closed.
+- [ ] Preserve all existing PostgreSQL table hashes and empty public policy; no actual users/approvals invented.
+- [ ] Independent security review, complete local regressions/browser/DB tests and actual remote CI pass.
+- [ ] Commit/push verified work; document operator commands and remaining human/legal/release gates.

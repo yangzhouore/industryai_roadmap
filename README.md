@@ -17,6 +17,12 @@ Original bilingual industrial intelligence site. Normal pages show only real val
 - MVP-4.1 supplies [Ubuntu configuration](docs/LINUX_DEPLOYMENT.md), [encrypted recovery](packages/db/BACKUP_RESTORE.md)
   and [source reuse evidence](docs/SOURCE_REUSE_AUDIT.md); no VPS deployment or paid activation is implied.
 
+## Local editorial review
+
+`npm run review -- --help` opens the offline CLI command guide; it does not enroll a user or grant approval.
+See [local review workflow](docs/EDITORIAL_REVIEW.md) for protected enrollment, append-only candidates, documented review and preview/export.
+The existing public-display policy stays unchanged; export is not publication or deployment.
+
 ## Local website
 
 Requires Node 22+, Python 3.11+ and PostgreSQL for real publications.
