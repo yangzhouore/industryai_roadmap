@@ -26,3 +26,10 @@
 - Public projections allowlist known fields, never spread stored objects, and always omit excerpts, evidence payloads and assets.
 - Explicit fixture mode remains labeled; it also uses sanitized projections. No runtime preview bypass for uncleared real editions.
 - Default policy has zero approvals; changing approvals requires documented human review, never ingestion or paid automation.
+
+## MVP-4.3 local review boundary
+- Pure shared public-display.ts is reused by the web reader and a bounded local data-only Node bridge.
+- Local candidate journal, authentication, append-only decisions/revisions and exact clearance export are defined in
+  [review contract](EDITORIAL_REVIEW_CONTRACT.md); the PostgreSQL source and existing history remain read-only.
+- Review reports contain private evidence; previews receive only shared-gate public projections or withheld/empty output.
+- No public web review routes, preview override, automatic public policy installation, paid call or deployment is introduced.

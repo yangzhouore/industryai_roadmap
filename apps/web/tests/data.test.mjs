@@ -8,6 +8,10 @@ import {fileURLToPath} from 'node:url';
 const __dirname=path.dirname(fileURLToPath(import.meta.url));
 import ts from 'typescript';
 const filename=path.resolve(__dirname,'../src/lib/data.ts');
+const sharedFilename=path.resolve(__dirname,'../../../packages/shared/public-display.ts');
+const sharedCompiled=ts.transpileModule(fs.readFileSync(sharedFilename,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText;
+const sharedExports={};
+vm.runInNewContext(sharedCompiled,{exports:sharedExports,require:createRequire(sharedFilename),URL,Intl,Date,Set});
 const compiled=ts.transpileModule(fs.readFileSync(filename,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2020,esModuleInterop:true}}).outputText;
 function reader(env={},rows=[],policy={version:1,intendedUse:'public-web',editions:[]}){
   const exportsObject={};const queries=[];let disconnects=0;
@@ -16,7 +20,7 @@ function reader(env={},rows=[],policy={version:1,intendedUse:'public-web',editio
     async $disconnect(){disconnects++;}
   }
   const originalRequire=createRequire(filename);
-  const require=name=>name==='server-only'?{}:name.endsWith('/config/public-display.json')?policy:name==='@industrial/db'?{PrismaClient}:originalRequire(name);
+  const require=name=>name.endsWith('/packages/shared/public-display')?sharedExports:name==='server-only'?{}:name.endsWith('/config/public-display.json')?policy:name==='@industrial/db'?{PrismaClient}:originalRequire(name);
   vm.runInNewContext(compiled,{exports:exportsObject,require,process:{env},URL,Intl,Date,Set});
   return {...exportsObject,queries,get disconnects(){return disconnects;}};
 }
