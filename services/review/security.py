@@ -36,14 +36,18 @@ def no_links(path):
 
 def private_access(path):
     path = no_links(path)
-    if os.name == 'nt':
-        from packages.db.recovery import require_private_identity
-        try:
+    try:
+        if os.name == 'nt':
+            from packages.db.recovery import require_private_identity
             require_private_identity(path)
-        except Exception:
-            raise ReviewError('Private owner-only filesystem access is required') from None
-    elif path.stat().st_uid != os.getuid() or stat.S_IMODE(path.stat().st_mode) & 0o077:
-        raise ReviewError('Private owner-only filesystem access is required')
+        else:
+            info = path.stat()
+            if info.st_uid != os.getuid() or stat.S_IMODE(info.st_mode) & 0o077:
+                raise ReviewError('Private owner-only filesystem access is required')
+    except ReviewError:
+        raise
+    except Exception:
+        raise ReviewError('Private owner-only filesystem access is required') from None
     return path
 
 
