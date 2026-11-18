@@ -29,11 +29,13 @@
 - Separate implementation, analysis/rendering, QA/security and lead integration used bounded file ownership.
 - Machine-only private inspection reports were generated for November 6/9/13, without journal enrollment/import/approval.
 - All real public previews remained withheld; source fingerprints matched after machine-only inspection.
-- Final local matrix passed: npm test (119), pipeline (68), review (22), deployment (10), recovery (15), idempotency (1).
+- Final local matrix passed: npm test, pipeline (68), review (22), deployment (10), recovery (15), idempotency (1).
 - Frontend test:web (16), lint, typecheck and build passed; fixture/database HTTP smoke passed (24/124 assertions).
 - Chromium smoke passed 17 cases with three screenshots; Windows skips one optional symlink-only test.
 - Fresh read-only source comparison matches all 19 table hashes, 140 articles, three bilingual issues and one revision.
-- Isolated recovery roundtrip passed; database migrations passed. Secret scan, Markdown limits and remote CI are recorded before merge review.
+- Isolated recovery roundtrip and database migrations passed; secret scan passed and all 41 Markdown files are below 100 lines.
+- Both GitHub Actions jobs passed for e25f745 in [push run 44277892858](https://github.com/yangzhouore/industryai_roadmap/actions/runs/44277892858)
+  and [PR run 44277885943](https://github.com/yangzhouore/industryai_roadmap/actions/runs/44277885943).
 - Existing public-display policy remains empty; all source-reuse approvals remain false.
 
 ## Operator guidance and limits

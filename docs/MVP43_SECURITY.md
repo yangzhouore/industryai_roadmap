@@ -43,7 +43,8 @@
 - Independent shared bridge: five tests passed; exact approvals, stale hashes, bounded transport and redaction.
 - Independent source/CLI: three tests passed; read-only SQL, parameterization and password-input refusal.
 - Real Chromium: 17 artificial report/preview cases passed; three screenshots visually checked.
-- Full local runs passed: review 22 tests; backend 119; pipeline 68; targeted final race/tamper checks passed.
+- Full local runs passed: review 22 tests, backend and pipeline suites; targeted final race/tamper checks passed.
 - Frontend 16 tests, lint, typecheck, build, 17 Chromium checks and database denial smoke passed.
 - Isolated encrypted backup/restore and deployment suites passed; live source fingerprint is unchanged.
+- Both remote CI jobs passed on the PR head; see the run links in [acceptance](MVP43_ACCEPTANCE.md).
 - Current public policy remains empty; no real edition receives approval from these tests or this report.
