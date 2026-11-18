@@ -42,6 +42,9 @@
 - [Review commands](EDITORIAL_REVIEW.md), [analysis limits](EDITORIAL_REVIEW_ANALYSIS.md),
   [independent security findings](MVP43_SECURITY.md), [contract](EDITORIAL_REVIEW_CONTRACT.md),
   and [launch checklist](PUBLIC_LAUNCH_CHECKLIST.md) describe setup and remaining gates.
+- Prepared machine-only reports: `artifacts/mvp43/machine-only-reports-5ba4b7d3/{2026-11-06,2026-11-09,2026-11-13}/private-review/index.html`.
+- Their EN/ZH digest, Sources, archive and empty RSS previews are siblings under each `withheld-preview/`; all remain withheld.
+- Open locally with the PowerShell `Start-Process` command in [review commands](EDITORIAL_REVIEW.md); never serve/share private folders.
 - Actual verified people must enroll and independently review both languages/claims/permissions; none of that human work is claimed.
 - The journal protects ordinary mutations with triggers/hash chains, not a malicious OS owner who can replace code/state.
 - Password/account recovery and external identity verification remain explicit operator/security work, not automatic identity rewriting.

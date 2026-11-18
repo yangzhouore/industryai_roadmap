@@ -14,11 +14,11 @@
 ## Identity setup (human action only; never executed by an agent)
 - Put a nonempty identity attestation in a private file and create owner-only JSON with `reason: {en, zh}`,
   `files: [absolute private path]` and `references: [documented HTTPS URL]`; all three fields are mandatory.
-- Example invocation structure (replace every uppercase identity placeholder with an actually verified person):
-  `python -m services.review enroll --bootstrap --human-id HUMAN-ID --name "VERIFIED HUMAN" --role administrator --identity-evidence PRIVATE-JSON`
+- Replace the example ID/name with a stable lowercase ID and name for the actually verified person:
+  `python -m services.review enroll --bootstrap --human-id actual-human-id --name "Actual Verified Name" --role administrator --identity-evidence PRIVATE-JSON`
 - Passwords require 15-1024 characters and are entered twice with interactive getpass, never flags, files, environment variables or command history.
 - Use an authenticated administrator to enroll separate authors/reviewers; repeat `--role` for explicitly verified roles.
-- Every later command needs `--actor HUMAN-ID` before its subcommand and a fresh password entry.
+- Every later command needs `--actor actual-human-id` before its subcommand and a fresh password entry.
 - PBKDF2-HMAC-SHA256 uses 600,000 iterations and independent 32-byte salts; sessions are opaque and expire after 120 seconds.
 - Five failures within 15 minutes block further login during that window. Attempts and successful logins are journaled.
 - Password reset, role changes and account retirement require separately designed recovery; none silently rewrites identity history.
@@ -38,6 +38,26 @@ Every example above follows `python -m services.review`; use `--state-dir PRIVAT
 Imports can only come from read-only PostgreSQL through the CLI, never a replacement source file.
 Revisions preserve publisher names, URLs, timestamps, excerpts, identities and historical source JSON exactly.
 All authors anywhere in a candidate lineage are disqualified from reviewing that candidate.
+
+## Prepared November packages on this workstation
+- These are machine-only reports, outside the human decision journal. No user, approval, permission or clearance was created.
+- Root: `artifacts/mvp43/machine-only-reports-5ba4b7d3/` (ignored and private; reports retain source evidence).
+- November 6: `artifacts/mvp43/machine-only-reports-5ba4b7d3/2026-11-06/private-review/index.html`.
+- November 9: `artifacts/mvp43/machine-only-reports-5ba4b7d3/2026-11-09/private-review/index.html`.
+- November 13: `artifacts/mvp43/machine-only-reports-5ba4b7d3/2026-11-13/private-review/index.html`.
+- Open one locally in PowerShell: `Start-Process -FilePath (Resolve-Path 'artifacts/mvp43/machine-only-reports-5ba4b7d3/2026-11-06/private-review/index.html').Path` (replace date as needed).
+- Each sibling `withheld-preview/index.html` shows the gate result; EN/ZH pages and empty RSS are under `withheld-preview/en/` and `zh/`.
+- Do not serve or share these folders: private reports include retained source excerpts. Heuristic flags/templates need human verification.
+- The reports are read-only snapshots, not journal candidates. For authenticated review, first verify actual identities and evidence,
+  then use `source-list`, `import --issue-id ISSUE_ID_FROM_LIST --reason "..."`, and `report --revision REVISION_ID --output DATE-review`.
+- From an interactive terminal after real administrator/author enrollment, run:
+  `python -m services.review --state-dir artifacts/editorial-review --actor actual-author-id source-list`.
+- Then import an ID returned by that command:
+  `python -m services.review --state-dir artifacts/editorial-review --actor actual-author-id import --issue-id ISSUE_ID_FROM_LIST --reason "Begin documented human review"`.
+- Replace `actual-author-id` and `actual-reviewer-id` with IDs for verified, enrolled people; they must be different.
+- Run `python -m services.review --state-dir artifacts/editorial-review --actor actual-author-id list` to obtain the revision ID, then:
+  `python -m services.review --state-dir artifacts/editorial-review --actor actual-reviewer-id report --revision REVISION_ID --output 2026-11-06-human-review`.
+- The report command writes `artifacts/editorial-review/reports/DATE-review/index.html`; see command syntax above and `--help`.
 
 ## Evidence and decisions
 - Review JSON always includes bilingual `reason`, actual private `files`, and documented HTTPS `references`.
