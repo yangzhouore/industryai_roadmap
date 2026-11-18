@@ -20,3 +20,13 @@
 - `automation_cache`: hashed stage/candidate keys and private JSON for durable resume; no API keys or HTTP headers.
 
 Add foreign keys, unique constraints, useful indexes and PostgreSQL full-text search + pg_trgm. The lead freezes the contract before parallel development. Use seed fixtures with realistic but clearly synthetic stories and no false source URLs.
+
+## Tracker
+
+- Company and technology records have canonical IDs, bilingual labels, and unique normalized aliases.
+- A project has an opaque ID. A milestone belongs to a project and retains a stable ID over corrections.
+- Milestone revisions are append-only. Each binds the current issue ID, full canonical issue SHA-256, JSON story ID, stage, and withdrawal state.
+- Revision-scoped joins attach companies and technologies without changing previous associations.
+- Evidence references `raw_articles` and snapshots the exact publisher, canonical URL, source ID, source timezone, and distinct publication/event timestamps.
+- Retain edition hashes even when a historical revision no longer matches the current edition. Legacy normalized story replacement can proceed.
+- Only the latest non-withdrawn revision matching the currently cleared edition may contribute to public tracker pages.

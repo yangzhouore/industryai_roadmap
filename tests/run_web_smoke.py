@@ -52,6 +52,7 @@ def run():
                 else:
                     raise RuntimeError('Production server readiness timed out')
                 subprocess.run([sys.executable, str(ROOT/'tests'/smoke)], env=env, check=True)
+                subprocess.run([sys.executable, str(ROOT/'tests/smoke_tracker_web.py')], env=env, check=True)
                 if os.getenv('RUN_BROWSER') == '1':
                     subprocess.run(['node', str(ROOT/'apps/web/tests/browser-smoke.mjs')], env=env, check=True)
             except Exception:

@@ -1,0 +1,20 @@
+{
+  "companies": [
+    {"id":"siemens","name":{"en":"Siemens","zh":"西门子"},"aliases":["Siemens AG"]},
+    {"id":"nvidia","name":{"en":"NVIDIA","zh":"英伟达"},"aliases":["Nvidia Corporation"]},
+    {"id":"abb","name":{"en":"ABB","zh":"ABB"},"aliases":["ABB Ltd","ABB Group"]},
+    {"id":"schneider-electric","name":{"en":"Schneider Electric","zh":"施耐德电气"},"aliases":["Schneider Electric SE"]},
+    {"id":"bosch","name":{"en":"Bosch","zh":"博世"},"aliases":["Robert Bosch","Bosch Rexroth","博世力士乐"]},
+    {"id":"rockwell-automation","name":{"en":"Rockwell Automation","zh":"罗克韦尔自动化"},"aliases":["Rockwell Automation Inc"]},
+    {"id":"honeywell","name":{"en":"Honeywell","zh":"霍尼韦尔"},"aliases":["Honeywell International"]},
+    {"id":"mitsubishi-electric","name":{"en":"Mitsubishi Electric","zh":"三菱电机"},"aliases":["Mitsubishi Electric Corporation"]},
+    {"id":"fanuc","name":{"en":"FANUC","zh":"发那科"},"aliases":["Fanuc Corporation"]}
+  ],
+  "technologies": [
+    {"id":"physical-ai","name":{"en":"Physical AI","zh":"物理 AI"},"aliases":["Physical Artificial Intelligence","Robotics & Physical AI","具身智能","物理人工智能"]},
+    {"id":"digital-twins","name":{"en":"Digital Twins","zh":"数字孪生"},"aliases":["Digital Twin","Digital Twins & Simulation"]},
+    {"id":"industrial-agents","name":{"en":"Industrial Agents","zh":"工业智能体"},"aliases":["Industrial Agent","Industrial Agents & Copilots","工业智能体与助手"]},
+    {"id":"predictive-maintenance","name":{"en":"Predictive Maintenance","zh":"预测性维护"},"aliases":["PdM","预测维护"]},
+    {"id":"ai-enabled-engineering","name":{"en":"AI-enabled Engineering","zh":"AI 赋能工程"},"aliases":["AI Engineering","AI-assisted Engineering","AI 辅助工程"]}
+  ]
+}

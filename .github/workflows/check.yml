@@ -117,6 +117,7 @@ jobs:
           TEST_RECOVERY_ADMIN_URL: postgresql://digest:digest@localhost:5432/postgres
       - run: npm run db:generate
       - run: npm run db:migrate
+      - run: python -m unittest packages.db.test_tracker_migration -v
       # Include daily publication/resume and real concurrent monthly-budget integration.
       - run: python -m unittest discover -s tests -v
       - run: python -m services.pipeline.ingest --database "$DATABASE_URL"

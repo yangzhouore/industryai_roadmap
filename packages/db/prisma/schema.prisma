@@ -8,15 +8,16 @@ datasource db {
 }
 
 model DigestIssue {
-  id          String        @id
-  slug        String        @unique
-  issueDate   String        @unique @map("issue_date")
-  state       String        @default("draft")
-  validated   Boolean       @default(false)
-  content     Json
-  publishedAt DateTime?     @map("published_at") @db.Timestamptz(6)
-  stories     DigestStory[]
-  deliveries  DeliveryLog[]
+  id               String                     @id
+  slug             String                     @unique
+  issueDate        String                     @unique @map("issue_date")
+  state            String                     @default("draft")
+  validated        Boolean                    @default(false)
+  content          Json
+  publishedAt      DateTime?                  @map("published_at") @db.Timestamptz(6)
+  stories          DigestStory[]
+  deliveries       DeliveryLog[]
+  trackerRevisions TrackerMilestoneRevision[]
 
   // Publication CHECK constraints and expression GIN indexes live in SQL migrations.
   @@index([state, validated, issueDate], map: "issues_public")
@@ -37,20 +38,21 @@ model Source {
 }
 
 model RawArticle {
-  id             String               @id
-  sourceId       String               @map("source_id")
-  source         Source               @relation(fields: [sourceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  canonicalUrl   String               @unique @map("canonical_url")
-  title          String
-  bodyExcerpt    String               @map("body_excerpt")
-  publishedAt    DateTime             @map("published_at") @db.Timestamptz(6)
-  eventAt        DateTime?            @map("event_at") @db.Timestamptz(6)
-  sourceTimezone String               @map("source_timezone")
-  collectedAt    DateTime             @default(now()) @map("collected_at") @db.Timestamptz(6)
-  contentHash    String               @map("content_hash")
-  rawMetadata    Json                 @map("raw_metadata")
-  clusters       ArticleClusterLink[]
-  citations      StoryCitation[]
+  id              String               @id
+  sourceId        String               @map("source_id")
+  source          Source               @relation(fields: [sourceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  canonicalUrl    String               @unique @map("canonical_url")
+  title           String
+  bodyExcerpt     String               @map("body_excerpt")
+  publishedAt     DateTime             @map("published_at") @db.Timestamptz(6)
+  eventAt         DateTime?            @map("event_at") @db.Timestamptz(6)
+  sourceTimezone  String               @map("source_timezone")
+  collectedAt     DateTime             @default(now()) @map("collected_at") @db.Timestamptz(6)
+  contentHash     String               @map("content_hash")
+  rawMetadata     Json                 @map("raw_metadata")
+  clusters        ArticleClusterLink[]
+  citations       StoryCitation[]
+  trackerEvidence TrackerEvidence[]
 
   @@index([publishedAt], map: "articles_date")
   @@map("raw_articles")
@@ -243,4 +245,126 @@ model AutomationCache {
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
 
   @@map("automation_cache")
+}
+
+model TrackerCompany {
+  id        String                   @id
+  nameEn    String                   @map("name_en")
+  nameZh    String                   @map("name_zh")
+  aliases   TrackerCompanyAlias[]
+  revisions TrackerRevisionCompany[]
+
+  @@map("tracker_companies")
+}
+
+model TrackerCompanyAlias {
+  key       String         @id
+  companyId String         @map("company_id")
+  company   TrackerCompany @relation(fields: [companyId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+
+  @@index([companyId], map: "tracker_company_aliases_company")
+  @@map("tracker_company_aliases")
+}
+
+model TrackerTechnology {
+  id        String                      @id
+  nameEn    String                      @map("name_en")
+  nameZh    String                      @map("name_zh")
+  aliases   TrackerTechnologyAlias[]
+  revisions TrackerRevisionTechnology[]
+
+  @@map("tracker_technologies")
+}
+
+model TrackerTechnologyAlias {
+  key          String            @id
+  technologyId String            @map("technology_id")
+  technology   TrackerTechnology @relation(fields: [technologyId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+
+  @@index([technologyId], map: "tracker_technology_aliases_technology")
+  @@map("tracker_technology_aliases")
+}
+
+model TrackerProject {
+  id         String             @id
+  createdAt  DateTime           @default(now()) @map("created_at") @db.Timestamptz(6)
+  milestones TrackerMilestone[]
+
+  @@map("tracker_projects")
+}
+
+model TrackerMilestone {
+  id        String                     @id
+  projectId String                     @map("project_id")
+  createdAt DateTime                   @default(now()) @map("created_at") @db.Timestamptz(6)
+  project   TrackerProject             @relation(fields: [projectId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  revisions TrackerMilestoneRevision[]
+
+  @@index([projectId], map: "tracker_milestones_project")
+  @@map("tracker_milestones")
+}
+
+model TrackerMilestoneRevision {
+  id           String                      @id
+  milestoneId  String                      @map("milestone_id")
+  revision     Int
+  issueId      String                      @map("issue_id")
+  issueHash    String                      @map("issue_hash")
+  storyId      String                      @map("story_id")
+  stage        String
+  recordedAt   DateTime                    @default(now()) @map("recorded_at") @db.Timestamptz(6)
+  recordedXid  Unsupported("xid8")         @default(dbgenerated("pg_current_xact_id()")) @map("recorded_xid")
+  withdrawn    Boolean                     @default(false)
+  milestone    TrackerMilestone            @relation(fields: [milestoneId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  issue        DigestIssue                 @relation(fields: [issueId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  evidence     TrackerEvidence[]
+  companies    TrackerRevisionCompany[]
+  technologies TrackerRevisionTechnology[]
+
+  // A replacement edition can remove its former normalized story rows. storyId and
+  // issueHash identify the exact historical snapshot without a cascading story FK.
+  @@unique([milestoneId, revision(sort: Desc)], map: "tracker_revisions_milestone_version")
+  @@index([issueId, issueHash, storyId], map: "tracker_revisions_issue_story")
+  @@map("tracker_milestone_revisions")
+}
+
+model TrackerEvidence {
+  revisionId     String                   @map("revision_id")
+  sourceKey      String                   @map("source_key")
+  rawArticleId   String                   @map("raw_article_id")
+  kind           String
+  publishedAt    DateTime                 @map("published_at") @db.Timestamptz(6)
+  eventAt        DateTime?                @map("event_at") @db.Timestamptz(6)
+  publisher      String
+  canonicalUrl   String                   @map("canonical_url")
+  sourceTimezone String                   @map("source_timezone")
+  revision       TrackerMilestoneRevision @relation(fields: [revisionId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  article        RawArticle               @relation(fields: [rawArticleId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+
+  @@id([revisionId, sourceKey])
+  @@unique([revisionId, rawArticleId], map: "tracker_evidence_revision_article")
+  @@index([rawArticleId], map: "tracker_evidence_article")
+  @@map("tracker_evidence")
+}
+
+model TrackerRevisionCompany {
+  revisionId String                   @map("revision_id")
+  companyId  String                   @map("company_id")
+  revision   TrackerMilestoneRevision @relation(fields: [revisionId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  company    TrackerCompany           @relation(fields: [companyId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+
+  @@id([revisionId, companyId])
+  @@index([companyId, revisionId], map: "tracker_revision_companies_company")
+  @@map("tracker_revision_companies")
+}
+
+model TrackerRevisionTechnology {
+  revisionId   String                   @map("revision_id")
+  technologyId String                   @map("technology_id")
+  revision     TrackerMilestoneRevision @relation(fields: [revisionId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  technology   TrackerTechnology        @relation(fields: [technologyId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+
+  @@id([revisionId, technologyId])
+  @@index([technologyId, revisionId], map: "tracker_revision_technologies_technology")
+  @@map("tracker_revision_technologies")
 }

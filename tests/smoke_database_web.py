@@ -24,6 +24,31 @@ SENTINELS = ('QA_PRIVATE_ISSUE_EVIDENCE', 'QA_PRIVATE_STORY_EVIDENCE',
              'QA_COPIED_EDITORIAL_ZH', 'QA_SOURCEONLYTOKEN_EXCERPT_EN',
              'QA_SOURCEONLYTOKEN_EXCERPT_ZH', 'QA_PRIVATE_ASSET',
              'QA_PRIVATE_RESPONSE', 'QA_PRIVATE_REVIEW')
+TRACKER_PRIVATE_PROJECT = 'project-' + 'a' * 24
+TRACKER_PRIVATE_MILESTONE = 'milestone-' + 'b' * 24
+
+
+def seed_uncleared_tracker(store, issue):
+    from services.tracker.store import issue_bridge
+
+    story = issue['stories'][0]
+    fingerprint = issue_bridge('hash', issue)['hash']
+    revision = 'revision-' + 'c' * 64
+    with store.db.transaction():
+        store.db.execute('INSERT INTO tracker_projects(id) VALUES (%s)', (TRACKER_PRIVATE_PROJECT,))
+        store.db.execute('INSERT INTO tracker_milestones(id,project_id) VALUES (%s,%s)',
+                         (TRACKER_PRIVATE_MILESTONE, TRACKER_PRIVATE_PROJECT))
+        store.db.execute('''INSERT INTO tracker_milestone_revisions
+            (id,milestone_id,revision,issue_id,issue_hash,story_id,stage) VALUES (%s,%s,1,%s,%s,%s,%s)''',
+            (revision, TRACKER_PRIVATE_MILESTONE, issue['id'], fingerprint, story['id'], story['maturity']))
+        for source in (item for item in issue['sources'] if item['id'] in story['sourceIds']):
+            article = store.db.execute('SELECT id FROM raw_articles WHERE canonical_url=%s', (source['url'],)).fetchone()
+            assert article is not None, 'Tracker evidence must reuse the normalized source URL'
+            store.db.execute('''INSERT INTO tracker_evidence
+                (revision_id,source_key,raw_article_id,kind,published_at,event_at,publisher,canonical_url,source_timezone)
+                VALUES (%s,%s,%s,'other',%s,%s,%s,%s,%s)''',
+                (revision, source['id'], article[0], source['publishedAt'], source['eventAt'],
+                 source['name'], source['url'], source['timezone']))
 
 
 def taint(issue):
@@ -112,7 +137,10 @@ def isolated_projection(database, *, isolated=False):
                       (invalid['id'], invalid['slug'], invalid['date'], 'published', True, Jsonb(invalid)))
         # SQL-only edits stay in this disposable schema. Never grant policy approvals.
         for row in store.execute('SELECT id,content FROM issues').fetchall():
-            store.execute('UPDATE issues SET content=? WHERE id=?', (Jsonb(taint(row[1])), row[0]))
+            updated = taint(row[1])
+            store.execute('UPDATE issues SET content=? WHERE id=?', (Jsonb(updated), row[0]))
+            if row[0] == draft['id']:
+                seed_uncleared_tracker(store, updated)
         yield web_url
     finally:
         if store:
