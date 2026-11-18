@@ -27,7 +27,7 @@ Earlier M0-M5, MVP-2/3/4 records are preserved in [milestone history](docs/MILES
 - Database writes for verification are confined to explicitly isolated targets/schemas.
 - No paid OpenAI calls, unattended activation, production deployment, VPS purchase or credential replacement.
 - Public source/translation rights and actual production/off-host credentials require further approval/evidence.
-- MVP-5 has not started. Public launch remains gated by evidence and separate authorization.
+- Public launch remains gated by evidence and separate authorization.
 
 ## MVP-4.2 - Public content safety and launch readiness
 - [x] Audit all third-party fields, source-specific permissions and assets; retain outstanding questions.
@@ -46,3 +46,14 @@ Earlier M0-M5, MVP-2/3/4 records are preserved in [milestone history](docs/MILES
 - [x] Preserve all existing PostgreSQL table hashes and empty public policy; no actual users/approvals invented.
 - [x] Independent security review and local regressions/browser/DB tests passed; both remote jobs passed in [push run 44277892858](https://github.com/yangzhouore/industryai_roadmap/actions/runs/44277892858) and [PR run 44277885943](https://github.com/yangzhouore/industryai_roadmap/actions/runs/44277885943).
 - [x] Commit e25f745 pushed to [PR #2](https://github.com/yangzhouore/industryai_roadmap/pull/2); operator commands and human/legal/release gates documented.
+
+## MVP-5 - Industrial AI Intelligence Tracker
+
+- [x] Add normalized companies, technologies, projects, milestones, and append-only evidence revisions.
+- [x] Build a manual, transactional updater against existing canonical citations and edition hashes.
+- [x] Add searchable EN/ZH trackers with stage, attribution, evidence status, and separate publication/event dates.
+- [x] Derive public tracker facts from the current edition projection under the existing clearance policy.
+- [x] Verify PostgreSQL migration, replay, revisions, withdrawal, and existing news preservation in isolated databases.
+- [x] Pass fixture and database HTTP checks and 165 Chromium checks, including bilingual tracker interaction.
+
+See the [tracker operator guide](docs/TRACKER.md) for local fixture and private update commands.

@@ -88,14 +88,30 @@ try{
   ws=new WebSocket(target.webSocketDebuggerUrl);await new Promise((resolve,reject)=>{ws.addEventListener('open',resolve,{once:true});ws.addEventListener('error',reject,{once:true});});
   ws.addEventListener('message',event=>{const message=JSON.parse(event.data);const request=requests.get(message.id);if(!request)return;requests.delete(message.id);clearTimeout(request.timer);if(message.error)request.reject(new Error(JSON.stringify(message.error)));else request.resolve(message.result);});
   await command('Page.enable');await command('Runtime.enable');await command('Accessibility.enable');await command('Page.bringToFront');
-  const cases=[['home-desktop','/en',1440,1000,'en'],['home-mobile','/en',375,812,'en'],['home-small-mobile','/en',320,720,'en'],['home-zh-mobile','/zh',375,812,'zh'],['digest-desktop','/en/digest/2026-11-12',1200,900,'en'],['sources-mobile','/zh/digest/2026-11-12/sources',375,812,'zh'],['search-mobile','/en/search?q=robot',375,812,'en']];
+  const cases=[['home-desktop','/en',1440,1000,'en'],['home-mobile','/en',375,812,'en'],['home-small-mobile','/en',320,720,'en'],['home-zh-mobile','/zh',375,812,'zh'],['digest-desktop','/en/digest/2026-11-12',1200,900,'en'],['sources-mobile','/zh/digest/2026-11-12/sources',375,812,'zh'],['search-mobile','/en/search?q=robot',375,812,'en'],
+    ['tracker-overview-desktop','/en/tracker',1440,1000,'en'],
+    ['tracker-overview-mobile','/zh/tracker',375,812,'zh'],
+    ['tracker-technology-desktop','/zh/tracker/technologies/physical-ai',1200,900,'zh'],
+    ['tracker-project-mobile','/en/tracker/projects/demo-robot-handoff',375,812,'en'],
+  ];
   for(const [name,route,width,height,locale] of cases){await viewport(width,height);await navigate(route);if(name==='home-desktop')check('browser target is explicit fixture server',await evaluate("Boolean(document.querySelector('.fixture-notice'))"),'Start this deterministic QA target with DATA_MODE=fixture.');await screenshot(name);await audit(name,locale);}
+  await evaluate("document.querySelector('.tracker-references summary').click()");
+  check('tracker evidence opens and shows separate dated attribution',await evaluate(`(() => {
+    const evidence=document.querySelector('.tracker-references');
+    const content=evidence.textContent;
+    return evidence.open && content.includes('example.org/fixtures/') &&
+      content.includes('Published') && content.includes('Event date') &&
+      content.includes('Not specified') && Boolean(evidence.querySelector('time[datetime]'));
+  })()`));
+  await evaluate("document.getElementById('tracker-query').value='nomatchxyz'; document.querySelector('.tracker-search button').click()");
+  await until("location.search==='?q=nomatchxyz' && document.querySelector('.tracker-timeline')?.textContent.includes('No matching milestones.')");
+  check('tracker search submits locally and shows a scoped empty state',await evaluate("!document.querySelector('.tracker-milestone')"));
   await viewport(1200,900);await navigate('/en');await evaluate('document.activeElement?.blur()');
   await command('Input.dispatchKeyEvent',{type:'keyDown',key:'Tab',code:'Tab',windowsVirtualKeyCode:9});await command('Input.dispatchKeyEvent',{type:'keyUp',key:'Tab',code:'Tab',windowsVirtualKeyCode:9});
   check('keyboard first focus is skip link',await evaluate("document.activeElement.classList.contains('skip-link')"));
   check('keyboard focus visible',await evaluate("getComputedStyle(document.activeElement).outlineStyle!=='none'&&parseFloat(getComputedStyle(document.activeElement).outlineWidth)>=2&&document.activeElement.getBoundingClientRect().top>=0"));
   await command('Input.dispatchKeyEvent',{type:'keyDown',key:'Enter',code:'Enter',windowsVirtualKeyCode:13});await command('Input.dispatchKeyEvent',{type:'keyUp',key:'Enter',code:'Enter',windowsVirtualKeyCode:13});await until("location.hash==='#main'");check('keyboard skip link targets content',await evaluate("location.hash==='#main'&&Boolean(document.getElementById('main'))"));
-  for(const route of ['/en/search?q=robot&category=Robotics%20%26%20Physical%20AI&page=1','/en/digest/2026-11-12/sources']){await navigate(route);const before=new URL(route,base);await evaluate("document.querySelector('.language').click()");await until("location.pathname.startsWith('/zh/')&&document.documentElement.lang==='zh'");const after=new URL(await evaluate('location.href'));check('locale switch preserves route '+route,after.pathname===before.pathname.replace(/^\/en/,'/zh'));check('locale switch preserves query '+route,JSON.stringify([...after.searchParams].sort())===JSON.stringify([...before.searchParams].sort()));await evaluate("document.querySelector('.language').click()");await until("location.pathname.startsWith('/en/')&&document.documentElement.lang==='en'");}
+  for(const route of ['/en/search?q=robot&category=Robotics%20%26%20Physical%20AI&page=1','/en/digest/2026-11-12/sources','/en/tracker/projects/demo-robot-handoff?q=robot']){await navigate(route);const before=new URL(route,base);await evaluate("document.querySelector('.language').click()");await until("location.pathname.startsWith('/zh/')&&document.documentElement.lang==='zh'");const after=new URL(await evaluate('location.href'));check('locale switch preserves route '+route,after.pathname===before.pathname.replace(/^\/en/,'/zh'));check('locale switch preserves query '+route,JSON.stringify([...after.searchParams].sort())===JSON.stringify([...before.searchParams].sort()));await evaluate("document.querySelector('.language').click()");await until("location.pathname.startsWith('/en/')&&document.documentElement.lang==='en'");}
   for(const href of links){const response=await fetch(href);check('navigation '+new URL(href).pathname,response.status===200,String(response.status));}
   await fs.writeFile(path.join(output,'report.json'),JSON.stringify({browser:executable,sandboxDisabled,base:base.href,checks,screenshots},null,2));
   console.log(`${checks.length} browser checks passed. Screenshots: ${output}`);

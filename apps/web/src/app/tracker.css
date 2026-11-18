@@ -1,0 +1,94 @@
+.site-header nav a[aria-current=location] { color: var(--accent); }
+
+.tracker .page-heading { margin-bottom: 27px; }
+.tracker-demo {
+  padding: 10px 14px;
+  background: #ece7d9;
+  border-left: 2px solid #967541;
+  color: #654e36;
+  font-size: 12px;
+  margin-bottom: 24px;
+}
+.tracker-sections {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 32px;
+}
+.tracker-sections a, .tracker-directory a {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  overflow-wrap: anywhere;
+}
+.tracker-sections a {
+  background: var(--soft);
+  border: 1px solid var(--line);
+  padding: 15px;
+  font: clamp(17px, 2.2vw, 23px) var(--serif);
+}
+.tracker-sections a span { font: 13px var(--sans); }
+.tracker-search { max-width: 620px; margin-bottom: 11px; }
+.tracker-directory-section, .tracker-timeline { margin-top: 25px; }
+.tracker-directory {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 25px;
+  padding: 0;
+}
+.tracker-directory li { min-width: 0; border-top: 1px solid var(--line); }
+.tracker-directory a { padding: 12px 4px; }
+.tracker-directory a span { flex-shrink: 0; }
+.tracker-topic-links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  margin: 0 0 23px;
+}
+.tracker-topic-links dt { color: var(--muted); font-size: 12px; }
+.tracker-topic-links dd { margin: 0; }
+.tracker-topic-links .tracker-directory { grid-template-columns: minmax(0, 1fr); }
+.tracker-topic-links .tracker-directory li { border: 0; }
+.tracker-topic-links .tracker-directory a { padding: 4px 0; }
+.tracker-milestones { padding: 0; list-style: none; }
+.tracker-milestone {
+  display: grid;
+  grid-template-columns: minmax(120px, 177px) minmax(0, 1fr);
+  gap: 25px;
+  border-top: 1px solid var(--line);
+  padding: 23px 0;
+}
+.tracker-milestone-date { display: grid; align-content: start; gap: 2px; color: var(--muted); font-size: 11px; }
+.tracker-milestone-date > time { font: 17px var(--serif); color: var(--ink); margin: 3px 0; }
+.tracker-evidence-labels { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; margin-bottom: 9px; }
+.tracker-evidence-labels .stage { font-size: 10px; padding: 2px 7px; }
+.tracker-evidence-status { font-size: 11px; color: var(--muted); }
+.tracker-evidence-status[data-status=vendor_claim] { color: #79462c; }
+.tracker-evidence-status[data-status=independently_verified] { color: #365849; }
+.tracker-milestone-content { max-width: 760px; }
+.tracker-milestone-content h3 { font: clamp(22px, 2.6vw, 29px)/1.2 var(--serif); overflow-wrap: anywhere; }
+.tracker-milestone-content p { margin-top: 9px; color: var(--muted); overflow-wrap: anywhere; }
+.tracker-project-reference { display: inline-block; margin-top: 7px; color: var(--accent); font-size: 12px; overflow-wrap: anywhere; }
+.tracker-references { margin-top: 14px; font-size: 13px; }
+.tracker-references summary { cursor: pointer; width: fit-content; }
+.tracker-references summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.tracker-references > ul { list-style: none; padding: 0 0 7px; }
+.tracker-references li { padding: 10px 0; overflow-wrap: anywhere; }
+.tracker-references li + li { border-top: 1px solid var(--line); }
+.tracker-example-url { display: block; font-size: 11px; color: var(--muted); }
+.tracker-source-dates { display: flex; flex-wrap: wrap; gap: 7px 20px; margin: 7px 0 0; font-size: 11px; }
+.tracker-source-dates dt { color: var(--muted); }
+.tracker-source-dates dd { margin: 0; }
+.tracker-timeline .empty h3 { font: 24px var(--serif); margin-bottom: 9px; }
+
+@media (max-width: 650px) {
+  .site-header nav { flex-wrap: wrap; }
+  .tracker-sections { grid-template-columns: minmax(0, 1fr); gap: 8px; margin-bottom: 22px; }
+  .tracker-sections a { padding: 11px 13px; }
+  .tracker-directory, .tracker-topic-links, .tracker-milestone { grid-template-columns: minmax(0, 1fr); }
+  .tracker-milestone { gap: 12px; padding: 19px 0; }
+  .tracker-milestone-date { display: flex; flex-wrap: wrap; align-items: baseline; gap: 3px 8px; }
+  .tracker-milestone-date > time { font-size: 15px; margin: 0; }
+}

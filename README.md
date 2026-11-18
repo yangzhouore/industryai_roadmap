@@ -44,6 +44,9 @@ Viewing existing publications requires no OpenAI API calls.
 For a new disposable database, see [database setup](packages/db/README.md).
 Do not seed, reset or rerun backfill merely to resume an existing working instance; apply only reviewed upgrade migrations.
 
+The Company, Technology, and Deployment trackers are available under `/en/tracker` and
+`/zh/tracker`. See the [Tracker guide](docs/TRACKER.md) for fixtures and private imports.
+
 ## Offline development and checks
 
 ```powershell

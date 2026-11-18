@@ -79,3 +79,12 @@ never supply it as the previous version's review.
 Read-only coverage audit: `python packages/db/audit_backfill.py --start 2026-11-01 --end 2026-11-13`.
 It uses exact Europe/Berlin calendar days; it does not assume that an older source
 is eligible merely because it was collected or published in an edition later.
+
+## Tracker database verification
+
+Run `python -m unittest packages.db.test_tracker_migration -v` with
+`TEST_DATABASE_URL` set to a disposable PostgreSQL database. The test constructs
+and removes its own schema and verifies that the additive migration preserves existing
+edition and canonical article rows. It also checks alias deduplication and revision
+integrity, including the database constraint that new evidence and memberships must
+be inserted in the same transaction as their parent revision.

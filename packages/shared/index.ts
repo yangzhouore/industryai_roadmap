@@ -19,3 +19,5 @@ export interface PublicEditionClearance {
 export interface PublicDisplayPolicy {
   version: 1; intendedUse: 'public-web'; editions: PublicEditionClearance[];
 }
+
+export type {TrackerData, TrackerEvidenceStatus, TrackerMilestoneView, TrackerProjectView, TrackerStage, TrackerTopic} from './tracker/types';
