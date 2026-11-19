@@ -1,0 +1,189 @@
+{
+  "snapshot": {
+    "version": 1,
+    "articles": [
+      {
+        "id": "fixture-article-1",
+        "sourceId": "fixture-publisher",
+        "publisher": "Fictional industrial fixture",
+        "url": "https://example.test/tracker/1",
+        "title": "NVIDIA fictional lab notes",
+        "excerpt": "NVIDIA researchers conducted research on physical AI in a laboratory simulation for a project called \"Lumen Bench\".",
+        "publishedAt": "2026-02-06T09:00:00+01:00",
+        "eventAt": null,
+        "sourceTimezone": "Europe/Berlin",
+        "contentHash": "1111111111111111111111111111111111111111111111111111111111111111"
+      },
+      {
+        "id": "fixture-article-2",
+        "sourceId": "fixture-publisher",
+        "publisher": "Fictional industrial fixture",
+        "url": "https://example.test/tracker/2",
+        "title": "Siemens fictional facility trial",
+        "excerpt": "Siemens completed a pilot for a digital twin at a fictional factory.",
+        "publishedAt": "2026-02-07T09:00:00+01:00",
+        "eventAt": "2026-02-04T07:00:00+01:00",
+        "sourceTimezone": "Europe/Berlin",
+        "contentHash": "2222222222222222222222222222222222222222222222222222222222222222"
+      },
+      {
+        "id": "fixture-article-3",
+        "sourceId": "fixture-publisher",
+        "publisher": "Fictional industrial fixture",
+        "url": "https://example.test/tracker/3",
+        "title": "ABB fictional factory report",
+        "excerpt": "ABB deployed predictive maintenance in production and the system is now in use at a fictional plant.",
+        "publishedAt": "2026-02-08T09:00:00+01:00",
+        "eventAt": null,
+        "sourceTimezone": "Europe/Berlin",
+        "contentHash": "3333333333333333333333333333333333333333333333333333333333333333"
+      },
+      {
+        "id": "fixture-article-4",
+        "sourceId": "fixture-publisher",
+        "publisher": "Fictional industrial fixture",
+        "url": "https://example.test/tracker/4",
+        "title": "Schneider Electric fictional collaboration",
+        "excerpt": "Schneider Electric announced a partnership with ABB to explore digital twins.",
+        "publishedAt": "2026-02-09T09:00:00+01:00",
+        "eventAt": null,
+        "sourceTimezone": "Europe/Berlin",
+        "contentHash": "4444444444444444444444444444444444444444444444444444444444444444"
+      },
+      {
+        "id": "fixture-article-5",
+        "sourceId": "fixture-publisher",
+        "publisher": "Fictional industrial fixture",
+        "url": "https://example.test/tracker/5",
+        "title": "Microsoft fictional plans",
+        "excerpt": "Microsoft announced plans to deploy a digital twin next year. Production will begin after the evaluation.",
+        "publishedAt": "2026-02-10T09:00:00+01:00",
+        "eventAt": null,
+        "sourceTimezone": "Europe/Berlin",
+        "contentHash": "5555555555555555555555555555555555555555555555555555555555555555"
+      },
+      {
+        "id": "fixture-article-6",
+        "sourceId": "fixture-publisher",
+        "publisher": "Fictional industrial fixture",
+        "url": "https://example.test/tracker/6",
+        "title": "AWS fictional product showcase",
+        "excerpt": "AWS will showcase its industrial agent at a demonstration webinar.",
+        "publishedAt": "2026-02-11T09:00:00+01:00",
+        "eventAt": null,
+        "sourceTimezone": "Europe/Berlin",
+        "contentHash": "6666666666666666666666666666666666666666666666666666666666666666"
+      },
+      {
+        "id": "fixture-article-7",
+        "sourceId": "fixture-publisher",
+        "publisher": "Fictional industrial fixture",
+        "url": "https://example.test/tracker/7",
+        "title": "Siemens fictional concept",
+        "excerpt": "Siemens describes an AI-enabled engineering concept for turbine design.",
+        "publishedAt": "2026-02-12T09:00:00+01:00",
+        "eventAt": null,
+        "sourceTimezone": "Europe/Berlin",
+        "contentHash": "7777777777777777777777777777777777777777777777777777777777777777"
+      },
+      {
+        "id": "fixture-article-8",
+        "sourceId": "fixture-publisher",
+        "publisher": "Fictional industrial fixture",
+        "url": "https://example.test/tracker/8",
+        "title": "NVIDIA fictional project update",
+        "excerpt": "NVIDIA has not deployed the physical AI system in production.",
+        "publishedAt": "2026-02-13T09:00:00+01:00",
+        "eventAt": null,
+        "sourceTimezone": "Europe/Berlin",
+        "contentHash": "8888888888888888888888888888888888888888888888888888888888888888"
+      }
+    ],
+    "editions": []
+  },
+  "gold": {
+    "version": 1,
+    "candidates": [
+      {
+        "classification": "research",
+        "stage": "research",
+        "status": "supported",
+        "evidence": [
+          {
+            "articleId": "fixture-article-1"
+          }
+        ]
+      },
+      {
+        "classification": "pilot",
+        "stage": "pilot",
+        "status": "supported",
+        "evidence": [
+          {
+            "articleId": "fixture-article-2"
+          }
+        ]
+      },
+      {
+        "classification": "deployment",
+        "stage": "deployed",
+        "status": "supported",
+        "evidence": [
+          {
+            "articleId": "fixture-article-3"
+          }
+        ]
+      },
+      {
+        "classification": "partnership",
+        "stage": null,
+        "status": "unresolved",
+        "evidence": [
+          {
+            "articleId": "fixture-article-4"
+          }
+        ]
+      },
+      {
+        "classification": "announcement",
+        "stage": null,
+        "status": "unresolved",
+        "evidence": [
+          {
+            "articleId": "fixture-article-5"
+          }
+        ]
+      },
+      {
+        "classification": "marketing",
+        "stage": null,
+        "status": "unresolved",
+        "evidence": [
+          {
+            "articleId": "fixture-article-6"
+          }
+        ]
+      },
+      {
+        "classification": "unresolved",
+        "stage": null,
+        "status": "unresolved",
+        "evidence": [
+          {
+            "articleId": "fixture-article-7"
+          }
+        ]
+      },
+      {
+        "classification": "unresolved",
+        "stage": null,
+        "status": "unresolved",
+        "evidence": [
+          {
+            "articleId": "fixture-article-8"
+          }
+        ]
+      }
+    ]
+  }
+}

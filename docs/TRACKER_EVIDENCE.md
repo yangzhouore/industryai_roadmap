@@ -1,5 +1,7 @@
 # Private Tracker evidence batches
 
+See [private extraction](TRACKER_EXTRACTION.md) for offline candidate suggestions and model response replay.
+
 This workflow uses existing PostgreSQL records and performs no collection or provider
 calls. The inventory matches exact company names and known aliases in Siemens, NVIDIA,
 ABB, Schneider Electric, Microsoft, and AWS coverage. An occurrence in a title, excerpt,
