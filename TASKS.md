@@ -73,3 +73,10 @@ See the [tracker operator guide](docs/TRACKER.md) for local fixture and private 
 - [x] Curate the existing corpus into a protected local dataset and record unresolved evidence separately.
 - [x] Validate the real manifest, unchanged replays, and revision behavior on isolated PostgreSQL.
 - [x] Keep the private data and retained evidence outside Git and retain the existing public clearance.
+
+## MVP-5.3 - Private AI-assisted candidate extraction
+
+- [x] Prepare configurable Structured Outputs requests and replay saved responses locally.
+- [x] Enforce exact evidence, entity and lifecycle checks before creating pending candidates.
+- [x] Keep candidate output distinct from human-authored curation and Tracker manifests.
+- [x] Add an offline evaluator and a token-budget cost estimate.
