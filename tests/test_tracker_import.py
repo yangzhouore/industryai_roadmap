@@ -58,6 +58,7 @@ class TrackerImportTests(unittest.TestCase):
         import psycopg
         from psycopg import sql
         from psycopg.rows import dict_row
+        from psycopg.types.json import Jsonb
         from services.pipeline.editorial.live import generate_real_issue
         from services.pipeline.editorial.test_live import ARTICLE, ScriptedHTTP, provider
         from services.pipeline.store import Store
@@ -78,14 +79,32 @@ class TrackerImportTests(unittest.TestCase):
                 finally:
                     store.close()
                 with psycopg.connect(scoped, autocommit=True, row_factory=dict_row) as db:
+                    repeated = db.execute('SELECT content FROM issues WHERE id=%s', (draft['id'],)).fetchone()['content']
+                    repeated.update(id='second-test-edition', slug='2026-01-02', date='2026-01-02')
+                    old_story_key = f"{draft['id']}:{repeated['stories'][0]['id']}"
+                    new_story_key = f"{repeated['id']}:{repeated['stories'][0]['id']}"
+                    db.execute("""INSERT INTO issues(id, slug, issue_date, state, validated, content, published_at)
+                        SELECT %s, %s, %s, state, validated, %s, published_at FROM issues WHERE id=%s""",
+                        (repeated['id'], repeated['slug'], repeated['date'], Jsonb(repeated), draft['id']))
+                    db.execute("""INSERT INTO digest_stories(id, issue_id, position, kind, structured_content, evidence_status)
+                        SELECT %s, %s, position, kind, structured_content, evidence_status FROM digest_stories WHERE id=%s""",
+                        (new_story_key, repeated['id'], old_story_key))
+                    db.execute("""INSERT INTO story_citations(story_id, raw_article_id, claim_key, source_url, excerpt_or_pointer)
+                        SELECT %s, raw_article_id, claim_key, source_url, excerpt_or_pointer FROM story_citations WHERE story_id=%s""",
+                        (new_story_key, old_story_key))
                     original = self.news_rows(db)
                     stories = list_stories(db, draft['id'])
                     story = stories['stories'][0]
                     catalog = Catalog.load()
                     raw = candidate(issueId=draft['id'], issueHash=stories['issueHash'], storyId=story['storyId'])
                     change = parse_change(raw, catalog)
+                    repeated_stories = list_stories(db, repeated['id'])
+                    cross_edition = parse_change(dict(raw, milestoneKey='cross-edition-duplicate',
+                        issueId=repeated['id'], issueHash=repeated_stories['issueHash']), catalog)
                     self.assertEqual(apply_changes(db, catalog, [change])[0]['status'], 'appended')
                     self.assertEqual(apply_changes(db, catalog, [change])[0]['status'], 'unchanged')
+                    with self.assertRaisesRegex(TrackerError, 'canonical evidence already anchors'):
+                        apply_changes(db, catalog, [cross_edition])
                     for invalid, message in (
                         (dict(raw, milestoneKey='duplicate'), 'already anchors'),
                         (dict(raw, milestoneKey='wrong-edition', issueHash='0' * 64), 'changed'),
@@ -103,6 +122,8 @@ class TrackerImportTests(unittest.TestCase):
                                                    expectedRevision=2, withdraw=True), catalog)
                     self.assertEqual(apply_changes(db, catalog, [withdrawal])[0]['status'], 'withdrawn')
                     self.assertEqual(apply_changes(db, catalog, [withdrawal])[0]['status'], 'unchanged')
+                    with self.assertRaisesRegex(TrackerError, 'canonical evidence already anchors'):
+                        apply_changes(db, catalog, [cross_edition])
 
                     revisions = list(db.execute('SELECT revision, withdrawn FROM tracker_milestone_revisions ORDER BY revision'))
                     self.assertEqual(revisions, [dict(revision=1, withdrawn=False), dict(revision=2, withdrawn=False),

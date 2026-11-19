@@ -27,20 +27,14 @@ export interface TrackerRevisionRecord {
   technologies: {technologyId: string}[];
 }
 
-function searchable(text: string): string {
-  return text.normalize('NFKC').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
+function normalizedAlias(text: string): string {
+  return text.normalize('NFKC').toLowerCase().trim().replace(/\s+/g, ' ');
 }
 
-function mentioned(alias: string, text: string): boolean {
-  const term = searchable(alias);
-  if (!term) return false;
-  return /\p{Script=Han}/u.test(term) ? text.includes(term) : ` ${text} `.includes(` ${term} `);
-}
-
-function supportedTopics(ids: string[], topics: typeof catalog.companies, approvedText: string[]): string[] {
-  const values = approvedText.map(searchable);
-  return topics.filter(topic => ids.includes(topic.id) && [topic.name.en, topic.name.zh, ...topic.aliases]
-    .some(alias => values.some(value => mentioned(alias, value)))).map(topic => topic.id);
+function supportedTopics(ids: string[], topics: typeof catalog.companies, classification: string): string[] {
+  const approved = normalizedAlias(classification);
+  return topics.filter(topic => ids.includes(topic.id) && [topic.id, topic.name.en, topic.name.zh, ...topic.aliases]
+    .some(alias => normalizedAlias(alias) === approved)).map(topic => topic.id);
 }
 
 function matchesSource(snapshot: TrackerEvidenceSnapshot, source: PublicSource): boolean {
@@ -51,10 +45,7 @@ function matchesSource(snapshot: TrackerEvidenceSnapshot, source: PublicSource):
 }
 
 function evidenceStatus(evidence: TrackerEvidenceSnapshot[]): TrackerEvidenceStatus {
-  const independent = evidence.filter(item => item.kind === 'independent');
-  const publishers = new Set(independent.map(item => searchable(item.publisher)));
-  const hosts = new Set(independent.map(item => new URL(item.canonicalUrl).hostname.replace(/^www\./, '')));
-  if (publishers.size >= 2 && hosts.size >= 2) return 'independently_verified';
+  // Curator roles do not attest independent corroboration of a cleared claim.
   return evidence.every(item => item.kind === 'vendor') ? 'vendor_claim' : 'reported';
 }
 
@@ -94,9 +85,8 @@ export function projectTrackerMilestone(
   }
   return timelineEntry(id, projectId, approved, story, {
     sources, stage, status: evidenceStatus(revision.evidence),
-    companyIds: supportedTopics(revision.companies.map(item => item.companyId), catalog.companies, [story.company, story.title.en, story.title.zh]),
-    technologyIds: supportedTopics(revision.technologies.map(item => item.technologyId), catalog.technologies,
-      [story.category, story.title.en, story.title.zh, story.summary.en, story.summary.zh]),
+    companyIds: supportedTopics(revision.companies.map(item => item.companyId), catalog.companies, story.company),
+    technologyIds: supportedTopics(revision.technologies.map(item => item.technologyId), catalog.technologies, story.category),
   });
 }
 

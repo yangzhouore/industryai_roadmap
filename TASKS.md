@@ -57,3 +57,12 @@ Earlier M0-M5, MVP-2/3/4 records are preserved in [milestone history](docs/MILES
 - [x] Pass fixture and database HTTP checks and 165 Chromium checks, including bilingual tracker interaction.
 
 See the [tracker operator guide](docs/TRACKER.md) for local fixture and private update commands.
+
+## MVP-5.1 - Final Tracker review
+
+- [x] Reject same-project, same-stage canonical evidence replay across editions and after withdrawal.
+- [x] Restrict public groupings to approved classifications and withhold independent verification claims based only on curator roles.
+- [x] Grant read-only tracker access to the web role and restrict routine worker writes in the database setup.
+- [x] Match the preserved PostgreSQL snapshot to the archived 19-table baseline without writing to it.
+- [x] Add repository controls that disable Vercel Git deployments for repository-root and web-app-root projects.
+- [ ] Diagnose the historical Vercel failure from authenticated build logs. GitHub only records failure.
