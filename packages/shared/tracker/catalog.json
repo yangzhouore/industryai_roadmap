@@ -8,7 +8,9 @@
     {"id":"rockwell-automation","name":{"en":"Rockwell Automation","zh":"罗克韦尔自动化"},"aliases":["Rockwell Automation Inc"]},
     {"id":"honeywell","name":{"en":"Honeywell","zh":"霍尼韦尔"},"aliases":["Honeywell International"]},
     {"id":"mitsubishi-electric","name":{"en":"Mitsubishi Electric","zh":"三菱电机"},"aliases":["Mitsubishi Electric Corporation"]},
-    {"id":"fanuc","name":{"en":"FANUC","zh":"发那科"},"aliases":["Fanuc Corporation"]}
+    {"id":"fanuc","name":{"en":"FANUC","zh":"发那科"},"aliases":["Fanuc Corporation"]},
+    {"id":"microsoft","name":{"en":"Microsoft","zh":"微软"},"aliases":["Microsoft Corporation"]},
+    {"id":"aws","name":{"en":"Amazon Web Services","zh":"亚马逊云科技"},"aliases":["AWS"]}
   ],
   "technologies": [
     {"id":"physical-ai","name":{"en":"Physical AI","zh":"物理 AI"},"aliases":["Physical Artificial Intelligence","Robotics & Physical AI","具身智能","物理人工智能"]},

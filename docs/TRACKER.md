@@ -19,6 +19,8 @@ ABB and Schneider Electric. Demo project activity is attached only to demo compa
 
 ## Private PostgreSQL workflow
 
+See [private evidence batches](TRACKER_EVIDENCE.md) for deterministic inventory and curation.
+
 Use a disposable database or a reviewed copy of the existing news database for evaluation.
 Set `DATABASE_URL` in the private process environment. The migration only creates tracker
 tables, indexes, and triggers. The web reader requires SELECT on issues, tracker milestones,

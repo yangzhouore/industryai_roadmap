@@ -66,3 +66,10 @@ See the [tracker operator guide](docs/TRACKER.md) for local fixture and private 
 - [x] Match the preserved PostgreSQL snapshot to the archived 19-table baseline without writing to it.
 - [x] Add repository controls that disable Vercel Git deployments for repository-root and web-app-root projects.
 - [ ] Diagnose the historical Vercel failure from authenticated build logs. GitHub only records failure.
+
+## MVP-5.2 - Private canonical evidence integration
+
+- [x] Build a read-only company inventory and a deterministic compiler for reviewed evidence and exact Tracker manifests.
+- [x] Curate the existing corpus into a protected local dataset and record unresolved evidence separately.
+- [x] Validate the real manifest, unchanged replays, and revision behavior on isolated PostgreSQL.
+- [x] Keep the private data and retained evidence outside Git and retain the existing public clearance.
