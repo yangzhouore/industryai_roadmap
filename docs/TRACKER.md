@@ -61,11 +61,12 @@ python -m services.tracker --milestone-history '<milestone ID from import>'
 - To withdraw, submit the same keys and current `expectedRevision` with `"withdraw": true`.
   A withdrawal retains history. The CLI checks exact canonical source URL, publisher,
   publication and event dates, and source timezone against normalized citations.
-- Resolve company and technology aliases with the checked-in bilingual catalog. Keep unknown
-  or ambiguous aliases out of imports. Use a new milestone key only for a distinct event.
-- Assign `vendor`, `independent`, or `other` based on evidence review. Omitted roles
-  default to `other`. Only explicitly classified corroboration from at least two distinct
-  publishers and hosts earns the independently verified label.
+- Resolve company and technology aliases with the checked-in bilingual catalog. Public grouping
+  requires an exact match to the approved story's company or category. Same-stage milestones
+  for a project cannot reuse the same canonical articles under a different key, even across editions.
+- Assign `vendor`, `independent`, or `other` in private evidence review. Omitted roles default
+  to `other`. Public timelines show vendor claims or reported evidence. Curator tags alone do
+  not establish claim-level independent verification.
 
 ## Publication boundary
 

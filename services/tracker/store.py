@@ -151,6 +151,16 @@ def duplicate_binding(db, change):
       (change.project_id, change.milestone_id, change.issue_id, change.issue_hash, change.story_id)).fetchone()
 
 
+def duplicate_evidence(db, change, stage, evidence):
+    articles = sorted(row[1] for row in evidence)
+    return db.execute("""SELECT 1 FROM tracker_milestones m
+      JOIN tracker_milestone_revisions r ON r.milestone_id=m.id
+      WHERE m.project_id=%s AND m.id<>%s AND NOT r.withdrawn AND r.stage=%s
+      AND ARRAY(SELECT e.raw_article_id FROM tracker_evidence e
+                WHERE e.revision_id=r.id ORDER BY e.raw_article_id COLLATE "C")=%s::text[]
+      LIMIT 1""", (change.project_id, change.milestone_id, stage, articles)).fetchone()
+
+
 def unchanged_binding(db, head, change, evidence):
     if (head['issue_id'], head['issue_hash'], head['story_id']) != (change.issue_id, change.issue_hash, change.story_id):
         return False
@@ -187,6 +197,8 @@ def apply_change(db, change, issue_cache):
         evidence = canonical_evidence(db, issue_id, issue, story, change.source_roles)
         if duplicate_binding(db, change):
             raise TrackerError('This exact edition story already anchors another milestone for the same project.')
+        if duplicate_evidence(db, change, stage, evidence):
+            raise TrackerError('This canonical evidence already anchors the same project stage on another milestone.')
         if head and not head['withdrawn'] and unchanged_binding(db, head, change, evidence):
             return 'unchanged'
 

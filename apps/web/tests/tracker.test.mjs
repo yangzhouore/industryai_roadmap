@@ -126,23 +126,30 @@ test('tracker requires the current published issue, exact revision and complete 
   assert.equal(projectTrackerMilestone(milestone, 'uncleared-project-key', revision, policy), null);
 });
 
-test('independent status requires distinct attributed publishers and domains', () => {
-  for (const [expected, publisher, host, role] of [
-    ['independently_verified', null, null, 'independent'],
-    ['reported', 'Publisher 0', null, 'independent'],
-    ['reported', null, 'www.publisher-0.test', 'independent'],
-    ['reported', null, null, 'other'],
-  ]) {
-    const {revision} = scenario();
-    const {content} = revision.issue;
-    const second = content.sources[1];
-    if (publisher) second.name = publisher;
-    if (host) second.url = `https://${host}/second`;
-    revision.evidence[0].kind = 'independent';
-    Object.assign(revision.evidence[1], {kind: role, publisher: second.name, canonicalUrl: second.url});
-    revision.issueHash = canonicalIssueHash(content);
-    assert.equal(projectTrackerMilestone(milestone, project, revision, reviewFor(content))?.status, expected);
-  }
+test('private role annotations cannot assert public independent verification', () => {
+  const {revision, policy} = scenario();
+  assert.equal(projectTrackerMilestone(milestone, project, revision, policy)?.status, 'vendor_claim');
+  revision.evidence[0].kind = 'independent';
+  assert.equal(projectTrackerMilestone(milestone, project, revision, policy)?.status, 'reported');
+  revision.evidence[1].kind = 'independent';
+  assert.equal(projectTrackerMilestone(milestone, project, revision, policy)?.status, 'reported');
+});
+
+test('public topic links require an exact approved classification alias', () => {
+  const {revision} = scenario();
+  const {content} = revision.issue;
+  const story = content.stories[0];
+  Object.assign(story, {
+    company: '  ＳＩＥＭＥＮＳ　ＡＧ ',
+    category: ' Digital Twins & Simulation ',
+    title: {en: 'Siemens pilot is unrelated to ABB', zh: '西门子试点与 ABB 无关'},
+    summary: {en: 'Industrial agents were excluded.', zh: '项目不涉及工业智能体。'},
+  });
+  revision.companies.push({companyId: 'abb'});
+  revision.issueHash = canonicalIssueHash(content);
+  const allowed = projectTrackerMilestone(milestone, project, revision, reviewFor(content));
+  assert.deepEqual(serial(allowed?.companyIds), ['siemens']);
+  assert.deepEqual(serial(allowed?.technologyIds), ['digital-twins']);
 });
 
 test('conflicting event dates remain unknown and fixtures never project real records', () => {

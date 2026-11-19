@@ -118,6 +118,12 @@ class ProductionConfigurationTests(unittest.TestCase):
         script = run.call_args.kwargs['input']
         self.assertTrue(script.startswith(dedicated_cluster.GUARD))
         self.assertLess(script.index('current_setting'), script.index('GRANT'))
+        tracker_grants = grant_database.TRACKER_PRIVILEGES.read_text(encoding='utf-8')
+        self.assertIn(tracker_grants, script)
+        self.assertLess(script.index('GRANT SELECT,INSERT,UPDATE ON ALL TABLES'), script.index(tracker_grants))
+        self.assertIn('REVOKE INSERT, UPDATE ON TABLE', tracker_grants)
+        self.assertIn('TO industrial_web', tracker_grants)
+        self.assertIn('SET LOCAL search_path TO public;', script)
 
 
 if __name__ == '__main__':

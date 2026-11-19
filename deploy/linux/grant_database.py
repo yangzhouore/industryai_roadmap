@@ -1,9 +1,14 @@
 """Grant application privileges after migrations; requires explicit local administrator action."""
 import argparse
 import os
+from pathlib import Path
 import subprocess
 import sys
 from dedicated_cluster import GUARD, psql_command
+
+
+TRACKER_PRIVILEGES = (Path(__file__).resolve().parents[2] / 'packages/db/prisma/migrations'
+                      / '20261119000000_tracker_privileges/migration.sql')
 
 
 def main(argv=None):
@@ -15,6 +20,7 @@ def main(argv=None):
     if os.name != 'posix' or os.geteuid() != 0:
         raise ValueError('Explicit grants require local root/peer administration')
     script = GUARD + '''BEGIN;
+SET LOCAL search_path TO public;
 REVOKE CREATE ON SCHEMA public FROM PUBLIC;
 GRANT USAGE ON SCHEMA public TO industrial_web,industrial_worker,industrial_backup;
 GRANT SELECT ON issues TO industrial_web;
@@ -26,8 +32,7 @@ GRANT USAGE,SELECT ON ALL SEQUENCES IN SCHEMA public TO industrial_worker;
 GRANT SELECT ON ALL SEQUENCES IN SCHEMA public TO industrial_backup;
 ALTER DEFAULT PRIVILEGES FOR ROLE industrial_owner IN SCHEMA public GRANT SELECT,INSERT,UPDATE ON TABLES TO industrial_worker;
 ALTER DEFAULT PRIVILEGES FOR ROLE industrial_owner IN SCHEMA public GRANT SELECT ON TABLES TO industrial_backup;
-COMMIT;
-'''
+''' + TRACKER_PRIVILEGES.read_text(encoding='utf-8') + '\nCOMMIT;\n'
     command = [value if value != '--dbname=postgres' else '--dbname=industrial_ai' for value in psql_command()]
     result = subprocess.run(command, input=script,
         text=True, capture_output=True, check=False)

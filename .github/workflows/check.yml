@@ -93,8 +93,12 @@ jobs:
       - run: pip install -r services/pipeline/requirements.txt
       - name: Extract verification tools without installing services
         run: |
+          # A runner can list an installed package after its version leaves the archive.
+          archive_version() {
+            apt-cache madison "$1" | awk -F '|' 'NR == 1 { gsub(/[[:space:]]/, "", $2); print $2 }'
+          }
           sudo apt-get update
-          if ! apt-cache show postgresql-client-18 >/dev/null 2>&1; then
+          if [ -z "$(archive_version postgresql-client-18)" ]; then
             curl --fail --silent --show-error https://www.postgresql.org/media/keys/ACCC4CF8.asc -o /tmp/industrial-ai-pgdg.asc
             sudo install -m 0644 /tmp/industrial-ai-pgdg.asc /usr/share/keyrings/industrial-ai-pgdg.asc
             . /etc/os-release
@@ -103,7 +107,14 @@ jobs:
           fi
           mkdir -p artifacts/ci-tools
           cd artifacts/ci-tools
-          apt-get download caddy age postgresql-client-18 libpq5
+          for package in caddy age postgresql-client-18 libpq5; do
+            version="$(archive_version "$package")"
+            if [ -z "$version" ]; then
+              echo "No downloadable archive version for $package" >&2
+              exit 1
+            fi
+            apt-get -o Acquire::Retries=3 download "$package=$version"
+          done
           for archive in ./*.deb; do dpkg-deb --extract "$archive" extracted; done
           echo "$PWD/extracted/usr/bin" >> "$GITHUB_PATH"
           echo "$PWD/extracted/usr/lib/postgresql/18/bin" >> "$GITHUB_PATH"
